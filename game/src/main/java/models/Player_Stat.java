@@ -7,9 +7,9 @@ import jakarta.persistence.*;
 public class Player_Stat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_player_stat")
-    private int id_player_stat;
+    @OneToOne
+    @JoinColumn(name = "id_player_stat", referencedColumnName = "id_player")
+    private Player id_player_stat;
 
     @Column(name = "score_player_stat", nullable = false, length = 10)
     private int score_player_stat;
@@ -44,11 +44,11 @@ public class Player_Stat {
     @Column(name = "coordinates_player_stat", nullable = false, length = 10)
     private String coordinates_player_stat;
 
-    public int getId_player_stat() {
+    public Player getId_player_stat() {
         return id_player_stat;
     }
 
-    public void setId_player_stat(int id_player_stat) {
+    public void setId_player_stat(Player id_player_stat) {
         this.id_player_stat = id_player_stat;
     }
 

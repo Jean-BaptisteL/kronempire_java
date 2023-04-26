@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "player")
@@ -32,6 +33,9 @@ public class Player {
 
     @Column(name="status_player", nullable = false)
     private TinyIntJdbcType status_player;
+
+    @OneToOne(mappedBy = "id_player_stat")
+    private Player_Stat playerStats;
 
     public void setId_player(Integer idPlayer) {
         this.id_player = idPlayer;
@@ -87,5 +91,13 @@ public class Player {
 
     public void setStatus_player(TinyIntJdbcType status_player) {
         this.status_player = status_player;
+    }
+
+    public Player_Stat getPlayerStats() {
+        return playerStats;
+    }
+
+    public void setPlayerStats(Player_Stat playerStats) {
+        this.playerStats = playerStats;
     }
 }
