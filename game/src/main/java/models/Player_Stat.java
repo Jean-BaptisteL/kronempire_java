@@ -2,14 +2,16 @@ package models;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "player_stat")
 public class Player_Stat {
 
     @Id
-    @OneToOne
-    @JoinColumn(name = "id_player_stat", referencedColumnName = "id_player")
-    private Player id_player_stat;
+    @Column(name = "id_player_stat")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_player_stat;
 
     @Column(name = "score_player_stat", nullable = false, length = 10)
     private int score_player_stat;
@@ -44,12 +46,27 @@ public class Player_Stat {
     @Column(name = "coordinates_player_stat", nullable = false, length = 10)
     private String coordinates_player_stat;
 
-    public Player getId_player_stat() {
+    @ManyToOne
+    @JoinColumn(name = "id_player")
+    private Player player;
+
+    @OneToMany(mappedBy = "playerStat")
+    private Set<PlayerHasBuilding> buildings;
+
+    public int getId_player_stat() {
         return id_player_stat;
     }
 
-    public void setId_player_stat(Player id_player_stat) {
+    public void setId_player_stat(int id_player_stat) {
         this.id_player_stat = id_player_stat;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player_id) {
+        this.player = player_id;
     }
 
     public int getScore_player_stat() {
@@ -138,5 +155,13 @@ public class Player_Stat {
 
     public void setCoordinates_player_stat(String coordinates_player_stat) {
         this.coordinates_player_stat = coordinates_player_stat;
+    }
+
+    public Set<PlayerHasBuilding> getBuildings() {
+        return buildings;
+    }
+
+    public void setBuildings(Set<PlayerHasBuilding> buildings) {
+        this.buildings = buildings;
     }
 }

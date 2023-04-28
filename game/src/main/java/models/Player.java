@@ -34,8 +34,11 @@ public class Player {
     @Column(name="status_player", nullable = false)
     private TinyIntJdbcType status_player;
 
-    @OneToOne(mappedBy = "id_player_stat")
-    private Player_Stat playerStats;
+    @OneToMany(mappedBy = "player")
+    private Set<Player_Stat> stats;
+
+    @OneToMany(mappedBy = "player")
+    private Set<Message> messages;
 
     public void setId_player(Integer idPlayer) {
         this.id_player = idPlayer;
@@ -93,11 +96,19 @@ public class Player {
         this.status_player = status_player;
     }
 
-    public Player_Stat getPlayerStats() {
-        return playerStats;
+    public Set<Player_Stat> getStats() {
+        return stats;
     }
 
-    public void setPlayerStats(Player_Stat playerStats) {
-        this.playerStats = playerStats;
+    public void setStats(Set<Player_Stat> stats) {
+        this.stats = stats;
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
     }
 }
