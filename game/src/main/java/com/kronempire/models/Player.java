@@ -1,4 +1,4 @@
-package models;
+package com.kronempire.models;
 
 import jakarta.persistence.*;
 import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
@@ -35,7 +35,7 @@ public class Player {
     private TinyIntJdbcType status_player;
 
     @OneToMany(mappedBy = "player")
-    private Set<Player_Stat> stats;
+    private Set<PlayerStat> stats;
 
     @OneToMany(mappedBy = "player")
     private Set<Message> messages;
@@ -96,11 +96,11 @@ public class Player {
         this.status_player = status_player;
     }
 
-    public Set<Player_Stat> getStats() {
+    public Set<PlayerStat> getStats() {
         return stats;
     }
 
-    public void setStats(Set<Player_Stat> stats) {
+    public void setStats(Set<PlayerStat> stats) {
         this.stats = stats;
     }
 

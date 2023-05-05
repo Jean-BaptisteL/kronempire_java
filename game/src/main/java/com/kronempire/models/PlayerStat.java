@@ -1,4 +1,4 @@
-package models;
+package com.kronempire.models;
 
 import jakarta.persistence.*;
 
@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "player_stat")
-public class Player_Stat {
+public class PlayerStat {
 
     @Id
     @Column(name = "id_player_stat")
