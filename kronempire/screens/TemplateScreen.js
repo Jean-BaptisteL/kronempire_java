@@ -6,56 +6,56 @@ const TemplateScreen = () => {
   return (
       <View>
         {/* resources container */}
-        <View style={styles.resourcesGlobal}>
-          <View style={styles.resourcesLine}>
-            <View style={styles.imageValue}>
+        <View style={Styles.resourcesGlobal}>
+          <View style={Styles.resourcesLine}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Minerai</Text>
             </View>
-            <View style={styles.imageValue}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Bois</Text>
             </View>
-            <View style={styles.imageValue}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Mana</Text>
             </View>
-            <View style={styles.imageValue}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Kron</Text>
             </View>
           </View>
-          <View style={styles.resourcesLine}>
-            <View style={styles.imageValue}>
+          <View style={Styles.resourcesLine}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Population</Text>
             </View>
-            <View style={styles.imageValue}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Moral</Text>
             </View>
-            <View style={styles.imageValue}>
+            <View style={Styles.imageValue}>
               <Image
                 source={require("../assets/favicon.png")}
-                style={styles.images}
+                style={Styles.images}
               />
               <Text>Dévotion</Text>
             </View>
@@ -68,7 +68,7 @@ const TemplateScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   resourcesGlobal: {
     // alignItems: 'center',
     backgroundColor: "gold",
