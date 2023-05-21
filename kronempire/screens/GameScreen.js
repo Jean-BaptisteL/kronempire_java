@@ -19,7 +19,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Accueil" 
                         component={HomeScreen}
                         options={{
-                          title: 'Compte rendu',
+                          title: 'Accueil',
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -31,7 +31,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Bâtiments"
                         component={BuildingScreen}
                         options={{
-                          title: 'Compte rendu',
+                          title: 'Bâtiments',
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -43,7 +43,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Technologies"
                         component={TechnologyScreen}
                         options={{
-                          title: 'Compte rendu',
+                          title: 'Technologies',
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -55,7 +55,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Recrutement"
                         component={RecruitmentScreen}
                         options={{
-                          title: 'Compte rendu',
+                          title: 'Recrutement',
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -67,7 +67,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Monde"
                         component={WorldScreen}
                         options={{
-                          title: 'Compte rendu',
+                          title: 'Monde',
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}

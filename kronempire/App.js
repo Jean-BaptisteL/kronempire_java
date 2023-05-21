@@ -23,10 +23,12 @@ export default function App() {
           headerTitleAlign: 'center'}
           }/>
           {/* TEST */}
-        <Stack.Screen name='Home' component={GameScreen} options={
+        <Stack.Screen name='Home' component={GameScreen} 
+        options={
           {title: 'KronEmpire',
           headerTitleAlign: 'center'}
-        }/>
+        }
+        />
       </Stack.Navigator>      
     </NavigationContainer>
   );
