@@ -12,7 +12,7 @@ const RecruitmentScreen = () => {
   return (
       <View>
         {/* resources container */}
-       <ResourceContainer/>
+       {/* <ResourceContainer/> */}
 
         {/* game container */}
         <Text>Recruitment Screen</Text>

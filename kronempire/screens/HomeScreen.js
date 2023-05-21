@@ -12,7 +12,7 @@ const HomeScreen = () => {
   return (
       <View>
         {/* resources container */}
-        <ResourceContainer/>
+        {/* <ResourceContainer/> */}
 
         {/* game container */}
         <Text>Home Screen</Text>

@@ -13,8 +13,7 @@ const BuildingScreen = () => {
 
   return (
       <View>
-        {/* resources container */}
-        <ResourceContainer/>
+        {/* <ResourceContainer/> */}
 
         {/* game container */}
         <Text>Building Screen</Text>

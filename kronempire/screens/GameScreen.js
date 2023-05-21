@@ -9,17 +9,24 @@ import BuildingScreen from "./BuildingScreen";
 import TechnologyScreen from "./TechnologyScreen";
 import RecruitmentScreen from "./RecruitmentScreen";
 import WorldScreen from "./WorldScreen";
+import ResourceContainer from "../container/resourceContainerView";
 
 const Tab = createBottomTabNavigator();
+
+const header = ResourceContainer;
 
 const GlobalScreen = () => {
   return (
     <NavigationContainer independent={true}>
-        <Tab.Navigator>
+        <Tab.Navigator 
+        // styling does not work on header
+        // style={{flex: 1, justifyContent: "space-evenly",
+        // }}
+        >
             <Tab.Screen name="Accueil" 
                         component={HomeScreen}
                         options={{
-                          title: 'Accueil',
+                          headerShown: false,
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -31,7 +38,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Bâtiments"
                         component={BuildingScreen}
                         options={{
-                          title: 'Bâtiments',
+                          headerShown: false,
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -43,7 +50,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Technologies"
                         component={TechnologyScreen}
                         options={{
-                          title: 'Technologies',
+                          headerShown: false,
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -55,7 +62,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Recrutement"
                         component={RecruitmentScreen}
                         options={{
-                          title: 'Recrutement',
+                          headerShown: false,
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}
@@ -67,7 +74,7 @@ const GlobalScreen = () => {
             <Tab.Screen name="Monde"
                         component={WorldScreen}
                         options={{
-                          title: 'Monde',
+                          headerShown: false,
                           tabBarIcon: ({size, focused, color}) => {
                             return (
                               <Image style={{ width: 25, height: 25}}

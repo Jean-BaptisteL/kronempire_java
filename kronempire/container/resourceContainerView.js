@@ -15,7 +15,6 @@ const ResourceContainer = () => {
       return () => clearInterval(timer);
     });
 
-    // console.log(newValue);
     return Math.trunc(newValue);
   };
 
@@ -26,29 +25,6 @@ const ResourceContainer = () => {
   const renderPopulation = () => {return parseInt(calculateResources(1, 2.2))};
   const renderMood = () => {return parseInt(calculateResources(1, 1.2))};
   const renderDevotion = () => {return parseInt(calculateResources(1, 1.2))};
-
-  // const renderOre = () => {
-  //   const [oreValue, setResourceValue] = useState(1);
-  //   const oreXFactor = 1.2;
-  
-  //   useEffect( () => {
-  //     const timer = setInterval( () => {
-  //       setResourceValue(oreValue + oreXFactor);
-  //     }, 1000);
-  
-  //     return () => clearInterval(timer);
-  //   });
-
-  //   return Math.trunc(oreValue);
-  // };
-
-  const minerai = renderOre();
-  const bois = "Bois";
-  const mana = "Mana";
-  const kron = "Kron";
-  const population = "Population";
-  const moral = "Moral";
-  const devotion = "Dévotion";
 
   return (
     <View style={Styles.resourcesGlobal}>

@@ -12,7 +12,7 @@ const WorldScreen = () => {
   return (
       <View>
         {/* resources container */}
-        <ResourceContainer/>
+        {/* <ResourceContainer/> */}
 
         {/* game container */}
         <Text>World Screen</Text>

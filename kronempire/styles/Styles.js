@@ -1,11 +1,18 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 const Styles = StyleSheet.create({
     resourcesGlobal: {
-      // alignItems: 'center',
-      backgroundColor: "gold",
-      height: 100,
+      // display: 'flex',
+      flex: 1,
+      // backgroundColor: "gold",
+      // height: 100,
+      // justifyContent: "space-around",
       justifyContent: "space-evenly",
+      // justifyContent: "space-between",
+      // width: Dimensions.get('screen').width,
+      width: 300,
+      // margin: 0,
     },
     resourcesLine: {
       flexDirection: "row",
@@ -18,6 +25,7 @@ const Styles = StyleSheet.create({
     images: {
       height: 23,
       width: 23,
+      marginRight: 3,
     },
     screen: {
         justifyContent: "center",
