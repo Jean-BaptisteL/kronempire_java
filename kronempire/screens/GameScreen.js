@@ -18,72 +18,87 @@ const header = ResourceContainer;
 const GlobalScreen = () => {
   return (
     <NavigationContainer independent={true}>
-        <Tab.Navigator 
-        // styling does not work on header
-        // style={{flex: 1, justifyContent: "space-evenly",
-        // }}
-        >
-            <Tab.Screen name="Accueil" 
-                        component={HomeScreen}
-                        options={{
-                          headerShown: false,
-                          tabBarIcon: ({size, focused, color}) => {
-                            return (
-                              <Image style={{ width: 25, height: 25}}
-                                     source={require("../assets/icons/home_icon.png")}/>
-                            );
-                          }
-                        }}
-                        />
-            <Tab.Screen name="Bâtiments"
-                        component={BuildingScreen}
-                        options={{
-                          headerShown: false,
-                          tabBarIcon: ({size, focused, color}) => {
-                            return (
-                              <Image style={{ width: 25, height: 25}}
-                                     source={require("../assets/icons/building_icon.png")}/>
-                            );
-                          }
-                        }}
-                        />
-            <Tab.Screen name="Technologies"
-                        component={TechnologyScreen}
-                        options={{
-                          headerShown: false,
-                          tabBarIcon: ({size, focused, color}) => {
-                            return (
-                              <Image style={{ width: 25, height: 25}}
-                                     source={require("../assets/icons/technology_icon.png")}/>
-                            );
-                          }
-                        }}
-                        />
-            <Tab.Screen name="Recrutement"
-                        component={RecruitmentScreen}
-                        options={{
-                          headerShown: false,
-                          tabBarIcon: ({size, focused, color}) => {
-                            return (
-                              <Image style={{ width: 25, height: 25}}
-                                     source={require("../assets/icons/bow_icon.png")}/>
-                            );
-                          }
-                        }}
-                        />
-            <Tab.Screen name="Monde"
-                        component={WorldScreen}
-                        options={{
-                          headerShown: false,
-                          tabBarIcon: ({size, focused, color}) => {
-                            return (
-                              <Image style={{ width: 25, height: 25}}
-                                     source={require("../assets/icons/monde_icon.png")}/>
-                            );
-                          }
-                        }}
-                        />
-        </Tab.Navigator>
+      <Tab.Navigator
+      // styling does not work on header
+      // style={{flex: 1, justifyContent: "space-evenly",
+      // }}
+      >
+        <Tab.Screen
+          name="Accueil"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../assets/icons/home_icon.png")}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Bâtiments"
+          component={BuildingScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../assets/icons/building_icon.png")}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Technologies"
+          component={TechnologyScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../assets/icons/technology_icon.png")}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Recrutement"
+          component={RecruitmentScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../assets/icons/bow_icon.png")}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Monde"
+          component={WorldScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../assets/icons/monde_icon.png")}
+                />
+              );
+            },
+          }}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };

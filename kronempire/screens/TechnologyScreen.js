@@ -1,22 +1,25 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 import ResourceContainer from "../container/resourceContainerView";
+import Styles from "../styles/Styles";
 
 const TechnologyScreen = () => {
-
-    const router = useRoute();
+  const router = useRoute();
 
   return (
-      <View>
-        {/* resources container */}
-        {/* <ResourceContainer/> */}
-
+    <View style={Styles.container}>
+      <ImageBackground
+        source={require("../assets/backgrounds/techno2_bkgd.jpg")}
+        resizeMode="cover"
+        style={Styles.backgroung}
+      >
         {/* game container */}
-        <Text>Technology Screen</Text>
-      </View>
+        <Text style={Styles.screenText}>Technology Screen</Text>
+      </ImageBackground>
+    </View>
   );
 };
 

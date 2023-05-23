@@ -1,22 +1,25 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 import ResourceContainer from "../container/resourceContainerView";
+import Styles from "../styles/Styles";
 
 const RecruitmentScreen = () => {
-    
-    const router = useRoute();
-    
-  return (
-      <View>
-        {/* resources container */}
-       {/* <ResourceContainer/> */}
+  const router = useRoute();
 
+  return (
+    <View style={Styles.container}>
+      <ImageBackground
+        source={require("../assets/backgrounds/recruitment_bkgd.jpg")}
+        resizeMode="cover"
+        style={Styles.backgroung}
+      >
         {/* game container */}
-        <Text>Recruitment Screen</Text>
-      </View>
+        <Text style={Styles.screenText}>Recruitment Screen</Text>
+      </ImageBackground>
+    </View>
   );
 };
 
