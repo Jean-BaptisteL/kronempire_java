@@ -15,6 +15,7 @@ const RecruitmentScreen = () => {
         source={require("../assets/backgrounds/recruitment_bkgd.jpg")}
         resizeMode="cover"
         style={Styles.backgroung}
+        imageStyle={{opacity:0.45}}
       >
         {/* game container */}
         <Text style={Styles.screenText}>Recruitment Screen</Text>

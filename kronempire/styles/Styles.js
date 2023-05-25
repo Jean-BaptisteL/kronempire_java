@@ -6,13 +6,15 @@ const Styles = StyleSheet.create({
       flex: 1,
       // justifyContent: "center",
       // justifyContent: "space-between",
-      opacity: 0.5,
+      // opacity: 0.5,
     },
     container: {
       flex: 1,
     },
     horizontalScrollMenu: {
-      flex: 0.05,
+      flex: 1,
+      margin: 8,
+
     },
     imageValue: {
       flexDirection: "row",
@@ -60,49 +62,62 @@ const Styles = StyleSheet.create({
     // building container
     // = screenText above
     tabName: {
-      flex: 0.08,
+      flex: 1,
       color: "black",
       fontSize: 25,
       fontFamily: "serif",
       fontWeight: "bold",
       textAlign: "center",
       opacity: 1,
-      marginTop: 8
+      paddingTop: 50,
     },
     buildingLevel: {
-      flex: 0.1,
+      flex: 1,
+      margin: 20,
 
     },
     buildingPriceGlobal: {
-      flex: 0.5,
-      flexDirection: 'row'
+      flex: 3,
+      flexDirection: 'row',
+      margin: 8,
 
     },
     buildingImage: {
-      flex: 0.5,
+      flex: 1,
       resizeMode: "contain",
       // padding: 8,
-      marginTop: -250,
+      // marginTop: -300,
       marginLeft: 10,
+      alignSelf: 'center',
     },
     buildingPriceIn: {
-      flex: 0.5,
+      flex: 1,
       justifyContent: "space-evenly",
-      padding: 8,
+      // padding: 8,
+      margin: 8,
+
     },
     buildingPrice: {
-      flex: 0.3,
+      flex: 1,
+      paddingBottom: 30,
 
     },
     buildingLocks: {
-      flex: 0.3,
+      flex: 1,
 
+    },
+    buildinConstructionButton: {
+      flex: 1,
+      margin: 18,
+      borderRadius: 50,
     },
     buildingDescription: {
-      flex: 0.4,
-
+      flex: 3,
+      margin: 8,
+      
     },
     buildingDescriptionParaph: {
+      textAlign: 'justify',
 
     },
     // + horizontalScrollMenu see above

@@ -15,6 +15,7 @@ const TechnologyScreen = () => {
         source={require("../assets/backgrounds/techno2_bkgd.jpg")}
         resizeMode="cover"
         style={Styles.backgroung}
+        imageStyle={{opacity:0.45}}
       >
         {/* game container */}
         <Text style={Styles.screenText}>Technology Screen</Text>

@@ -13,7 +13,8 @@ const HomeScreen = () => {
       <View style={Styles.container}>
         <ImageBackground source={require("../assets/backgrounds/hourglass_bkgd.jpg")} 
         resizeMode="cover"
-        style={Styles.backgroung}>
+        style={Styles.backgroung}
+        imageStyle={{opacity:0.45}}>
 
         {/* game container */}
         <Text style={Styles.screenText}>Home Screen</Text>

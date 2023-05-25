@@ -23,6 +23,7 @@ const BuildingScreen = () => {
         source={require("../assets/backgrounds/building_bkgd.jpg")}
         resizeMode="cover"
         style={Styles.backgroung}
+        imageStyle={{opacity:0.45}}
       >
         {/* game container */}
         {/* 1 */}
@@ -36,9 +37,7 @@ const BuildingScreen = () => {
 
         <View style={Styles.buildingPriceGlobal}>
           <Image style={Styles.buildingImage} 
-                  source={require("../assets/backgrounds/building_bkgd.jpg")}
-                  // resizeMode="contain"
-        >
+                  source={require("../assets/backgrounds/building_bkgd.jpg")}>
           </Image>
           {/* Carracteristiques pour le niveau suivant (sur la droite) */}
           <View style={Styles.buildingPriceIn}>
@@ -46,7 +45,7 @@ const BuildingScreen = () => {
               <Text>Cout en minerai</Text>
               <Text>Cout en bois</Text>
               <Text>Cout en Mana</Text>
-              <Text></Text>
+
               <Text>Temps de construction</Text>
             </View>
             <View style={Styles.buildingLocks}>
@@ -55,19 +54,22 @@ const BuildingScreen = () => {
               <Text>Technologie X niv Y </Text>
             </View>
           </View>
-        </View>
+        </View >
+        <View style={Styles.buildinConstructionButton}>
             <Button
               styleDisabled={{ color: "grey" }}
               onPress={() => console.log("Button pressed")}
               title="Construire"
+              style={Styles.buildinConstructionButton}
             >
               Construire
             </Button>
+        </View>
         {/* 4 */}
 
         <View style={Styles.buildingDescription}>
           <Text>Description:</Text>
-          <Text>
+          <Text style={Styles.buildingDescriptionParaph}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, blanditiis. Exercitationem, quae eveniet sit sequi perspiciatis a recusandae porro accusantium atque ab pariatur corporis officia vitae ut. Recusandae iure fugit modi obcaecati eligendi est inventore consequatur quae doloribus? Perferendis doloremque soluta iure at dicta omnis! Expedita, quos error deserunt, ipsum quaerat similique quas quisquam deleniti eum culpa nemo atque incidunt.
           </Text>
         </View>
