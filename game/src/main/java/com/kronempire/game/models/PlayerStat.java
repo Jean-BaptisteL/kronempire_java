@@ -1,6 +1,7 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Set;
 
@@ -14,33 +15,43 @@ public class PlayerStat {
     private int id_player_stat;
 
     @Column(name = "score_player_stat", nullable = false, length = 10)
+    @ColumnDefault("0")
     private int score_player_stat;
 
-    @Column(name = "metalQuantity_player_stat", nullable = false, length = 100)
+    @Column(name = "metal_quantity_player_stat", nullable = false, length = 100)
+    @ColumnDefault("0")
     private int metalQuantity_player_stat;
 
-    @Column(name = "woodQuantity_player_stat", nullable = false, length = 100)
+    @Column(name = "wood_quantity_player_stat", nullable = false, length = 100)
+    @ColumnDefault("0")
     private int woodQuantity_player_stat;
 
-    @Column(name = "manaQuantity_player_stat", nullable = false, length = 100)
+    @Column(name = "mana_quantity_player_stat", nullable = false, length = 100)
+    @ColumnDefault("0")
     private int manaQuantity_player_stat;
 
-    @Column(name = "kronQuantity_player_stat", nullable = false, length = 100)
+    @Column(name = "kron_quantity_player_stat", nullable = false, length = 100)
+    @ColumnDefault("0")
     private int kronQuantity_player_stat;
 
-    @Column(name = "popQuantity_player_stat", nullable = false, length = 100)
+    @Column(name = "pop_quantity_player_stat", nullable = false, length = 100)
+    @ColumnDefault("100")
     private int popQuantity_player_stat;
 
     @Column(name = "moral_player_stat", nullable = false, length = 3)
+    @ColumnDefault("50")
     private int moral_player_stat;
 
     @Column(name = "devotion_player_stat", nullable = false, length = 3)
+    @ColumnDefault("50")
     private int devotion_player_stat;
 
-    @Column(name = "victoryCnt_player_stat", nullable = false, length = 10)
+    @Column(name = "victory_cnt_player_stat", nullable = false, length = 10)
+    @ColumnDefault("0")
     private int victoryCnt_player_stat;
 
-    @Column(name = "defeatCnt_player_stat", nullable = false, length = 10)
+    @Column(name = "defeat_cnt_player_stat", nullable = false, length = 10)
+    @ColumnDefault("0")
     private int defeatCnt_player_stat;
 
     @Column(name = "coordinates_player_stat", nullable = false, length = 10)

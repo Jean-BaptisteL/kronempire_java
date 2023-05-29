@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Connection from './screens/Connection';
+import SignIn from './screens/SignIn';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,10 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name='Connection' component={Connection} options={
           {title: 'KronEmpire - Connexion',
+          headerTitleAlign: 'center'}
+          }/>
+          <Stack.Screen name='SignIn' component={SignIn} options={
+          {title: 'KronEmpire - Inscription',
           headerTitleAlign: 'center'}
           }/>
       </Stack.Navigator>

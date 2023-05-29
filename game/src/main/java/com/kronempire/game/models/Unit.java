@@ -1,4 +1,4 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 
 import jakarta.persistence.*;
@@ -20,19 +20,19 @@ public class Unit {
     @Column(name = "image_unit", nullable = false)
     private String image_unit;
 
-    @Column(name = "metalPrice_unit", nullable = false, length = 10)
+    @Column(name = "metal_price_unit", nullable = false, length = 10)
     private int metalPrice_unit;
 
-    @Column(name = "woodPrice_unit", nullable = false, length = 10)
+    @Column(name = "wood_price_unit", nullable = false, length = 10)
     private int woodPrice_unit;
 
-    @Column(name = "manaPrice_unit", nullable = false, length = 10)
+    @Column(name = "mana_price_unit", nullable = false, length = 10)
     private int manaPrice_unit;
 
-    @Column(name = "kronPrice_unit", nullable = false, length = 10)
+    @Column(name = "kron_price_unit", nullable = false, length = 10)
     private int kronPrice_unit;
 
-    @Column(name = "buildTime_unit", nullable = false, length = 10)
+    @Column(name = "build_time_unit", nullable = false, length = 10)
     private int buildTime_unit;
 
     @Column(name = "hp_unit", nullable = false, length = 10)

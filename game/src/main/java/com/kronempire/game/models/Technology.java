@@ -1,4 +1,4 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 import jakarta.persistence.*;
 
@@ -19,28 +19,28 @@ public class Technology {
     @Column(name = "image_tech", nullable = false)
     private String image_tech;
 
-    @Column(name = "metalPrice_tech", nullable = false, length = 10)
+    @Column(name = "metal_price_tech", nullable = false, length = 10)
     private int metalPrice_tech;
 
-    @Column(name = "woodPrice_tech", nullable = false, length = 10)
+    @Column(name = "wood_price_tech", nullable = false, length = 10)
     private int woodPrice_tech;
 
-    @Column(name = "manaPrice_tech", nullable = false, length = 10)
+    @Column(name = "mana_price_tech", nullable = false, length = 10)
     private int manaPrice_tech;
 
-    @Column(name = "kronPrice_tech", nullable = false, length = 10)
+    @Column(name = "kron_price_tech", nullable = false, length = 10)
     private int kronPrice_tech;
 
-    @Column(name = "buildTime_tech", nullable = false, length = 10)
+    @Column(name = "build-time_tech", nullable = false, length = 10)
     private int buildTime_tech;
 
-    @Column(name = "levelFactor_tech", nullable = false, length = 5)
+    @Column(name = "level_factor_tech", nullable = false, length = 5)
     private int levelFactor_tech;
 
-    @Column(name = "timeFactor_tech", nullable = false, length = 5)
+    @Column(name = "time_factor_tech", nullable = false, length = 5)
     private int timeFactor_tech;
 
-    @Column(name = "priceFactor_tech", nullable = false, length = 5)
+    @Column(name = "price_factor_tech", nullable = false, length = 5)
     private int priceFactor_tech;
 
     public int getId_tech() {

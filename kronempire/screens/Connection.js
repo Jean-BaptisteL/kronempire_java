@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useForm, Controller } from "react-hook-form";
 
-const Connection = () => {
+const Connection = ({navigation}) => {
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -13,8 +13,9 @@ const Connection = () => {
     return (
         <View style={styles.container}>
             <View>
-                <Text>Connexion</Text>
+                <Text style={styles.title}>Connexion</Text>
                 <View>
+                    <Text style={styles.text}>Email</Text>
                     <Controller
                         control={control}
                         rules={{
@@ -33,7 +34,7 @@ const Connection = () => {
                     />
                     {errors.email && errors.email.type == 'required' && <Text>L'email est obligatoire.</Text>}
                     {errors.email && errors.email.type == 'pattern' && <Text>L'email doit être valide.</Text>}
-
+                    <Text style={styles.text}>Mot de passe</Text>
                     <Controller
                         control={control}
                         rules={{
@@ -53,7 +54,10 @@ const Connection = () => {
                         name="password"
                     />
                     {errors.password && errors.password.type == 'required' && <Text>Le mot de passe est obligatoire.</Text>}
-                    <Button title="Se connecter" onPress={handleSubmit(onSubmit)} />
+                    <View>
+                        <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')}/>
+                        <Button title="Se connecter" onPress={handleSubmit(onSubmit)} />
+                    </View>
                 </View>
             </View>
         </View>
@@ -64,7 +68,14 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
-        // verticalAlign: 'middle'
+        flex: 1,
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 35
+    },
+    text: {
+        fontSize: 20
     }
 });
 
