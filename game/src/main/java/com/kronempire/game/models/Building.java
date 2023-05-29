@@ -1,4 +1,4 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 import jakarta.persistence.*;
 
@@ -19,31 +19,31 @@ public class Building {
     @Column(name = "image_building", nullable = false)
     private String image_building;
 
-    @Column(name = "metalPrice_building", nullable = false, length = 10)
+    @Column(name = "metal_price_building", nullable = false, length = 10)
     private int metalPrice_building;
 
-    @Column(name = "woodPrice_building", nullable = false, length = 10)
+    @Column(name = "wood_price_building", nullable = false, length = 10)
     private int woodPrice_building;
 
-    @Column(name = "manaPrice_building", nullable = false, length = 10)
+    @Column(name = "mana_price_building", nullable = false, length = 10)
     private int manaPrice_building;
 
-    @Column(name = "kronPrice_building", nullable = false, length = 10)
+    @Column(name = "kron_price_building", nullable = false, length = 10)
     private int kronPrice_building;
 
-    @Column(name = "buildTime_building", nullable = false, length = 10)
+    @Column(name = "build_time_building", nullable = false, length = 10)
     private int buildTime_building;
 
-    @Column(name = "levelFactor_building", nullable = false, length = 5)
+    @Column(name = "level_factor_building", nullable = false, length = 5)
     private int levelFactor_building;
 
-    @Column(name = "timeFactor_building", nullable = false, length = 5)
+    @Column(name = "time_factor_building", nullable = false, length = 5)
     private int timeFactor_building;
 
-    @Column(name = "priceFactor_building", nullable = false, length = 5)
+    @Column(name = "price_factor_building", nullable = false, length = 5)
     private int priceFactor_building;
 
-    @Column(name = "minimumPop_building", nullable = false, length = 10)
+    @Column(name = "minimum_pop_building", nullable = false, length = 10)
     private int minimumPop_building;
 
     public int getId_building() {

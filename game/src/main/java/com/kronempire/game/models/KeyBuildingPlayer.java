@@ -1,4 +1,4 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -6,13 +6,21 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class KeyBuildingTechnology implements Serializable {
+public class KeyBuildingPlayer implements Serializable {
+
+    @Column(name = "id_player_stat")
+    private int playerStatId;
 
     @Column(name = "id_building")
     private int buildingId;
 
-    @Column(name = "id_tech")
-    private int technologyId;
+    public int getPlayerStatId() {
+        return playerStatId;
+    }
+
+    public void setPlayerStatId(int playerStatId) {
+        this.playerStatId = playerStatId;
+    }
 
     public int getBuildingId() {
         return buildingId;
@@ -20,13 +28,5 @@ public class KeyBuildingTechnology implements Serializable {
 
     public void setBuildingId(int buildingId) {
         this.buildingId = buildingId;
-    }
-
-    public int getTechnologyId() {
-        return technologyId;
-    }
-
-    public void setTechnologyId(int technologyId) {
-        this.technologyId = technologyId;
     }
 }

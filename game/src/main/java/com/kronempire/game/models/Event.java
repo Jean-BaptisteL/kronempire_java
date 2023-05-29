@@ -1,4 +1,4 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 import jakarta.persistence.*;
 
@@ -19,25 +19,25 @@ public class Event {
     @Column(name = "image_event", nullable = false)
     private String image_event;
 
-    @Column(name = "metalPrice_event", nullable = false, length = 10)
+    @Column(name = "metal_price_event", nullable = false, length = 10)
     private int metalPrice_event;
 
-    @Column(name = "woodPrice_event", nullable = false, length = 10)
+    @Column(name = "wood_price_event", nullable = false, length = 10)
     private int woodPrice_event;
 
-    @Column(name = "manaPrice_event", nullable = false, length = 10)
+    @Column(name = "mana_price_event", nullable = false, length = 10)
     private int manaPrice_event;
 
-    @Column(name = "kronPrice_event", nullable = false, length = 10)
+    @Column(name = "kron_price_event", nullable = false, length = 10)
     private int kronPrice_event;
 
-    @Column(name = "devotionPrice_event", nullable = false, length = 10)
+    @Column(name = "devotion_price_event", nullable = false, length = 10)
     private int devotionPrice_event;
 
-    @Column(name = "moralPrice_event", nullable = false, length = 10)
+    @Column(name = "moral_price_event", nullable = false, length = 10)
     private int moralPrice_event;
 
-    @Column(name = "lifeTime_event", nullable = false, length = 10)
+    @Column(name = "life_time_event", nullable = false, length = 10)
     private int lifeTime_event;
 
     public int getId_event() {

@@ -1,9 +1,9 @@
-package com.kronempire.models;
+package com.kronempire.game.models;
 
 import jakarta.persistence.*;
-import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -16,29 +16,41 @@ public class Player {
     private Integer id_player;
 
     @Column(name="email_player", nullable = false)
-    private String email_player;
+    private String email;
 
     @Column(name="password_player", nullable = false)
     private String password_player;
 
     @Column(name="date_player", nullable = false)
-    private Date date_player;
+    private LocalDate date_player;
 
     @Column(name="pseudo_player", nullable = false)
     private String pseudo_player;
 
-    @Column(name="lastConnection_player", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastConnection_player;
+    @Column(name="last_connection_player", nullable = false)
+    private LocalDateTime lastConnection_player;
 
     @Column(name="status_player", nullable = false)
-    private TinyIntJdbcType status_player;
+    private Integer status_player;
 
     @OneToMany(mappedBy = "player")
     private Set<PlayerStat> stats;
 
     @OneToMany(mappedBy = "player")
     private Set<Message> messages;
+
+    public Player(String email, String password_player, String pseudo_player) {
+        this.email = email;
+        this.password_player = password_player;
+        this.pseudo_player = pseudo_player;
+        this.date_player = LocalDate.now();
+        this.lastConnection_player = LocalDateTime.now();
+        this.status_player = 1;
+    }
+
+    public Player() {
+
+    }
 
     public void setId_player(Integer idPlayer) {
         this.id_player = idPlayer;
@@ -48,12 +60,12 @@ public class Player {
         return id_player;
     }
 
-    public String getEmail_player() {
-        return email_player;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmail_player(String email_player) {
-        this.email_player = email_player;
+    public void setEmail(String email_player) {
+        this.email = email_player;
     }
 
     public String getPassword_player() {
@@ -64,11 +76,11 @@ public class Player {
         this.password_player = password_player;
     }
 
-    public Date getDate_player() {
+    public LocalDate getDate_player() {
         return date_player;
     }
 
-    public void setDate_player(Date date_player) {
+    public void setDate_player(LocalDate date_player) {
         this.date_player = date_player;
     }
 
@@ -80,19 +92,19 @@ public class Player {
         this.pseudo_player = pseudo_player;
     }
 
-    public Date getLastConnection_player() {
+    public LocalDateTime getLastConnection_player() {
         return lastConnection_player;
     }
 
-    public void setLastConnection_player(Date lastConnection_player) {
+    public void setLastConnection_player(LocalDateTime lastConnection_player) {
         this.lastConnection_player = lastConnection_player;
     }
 
-    public TinyIntJdbcType getStatus_player() {
+    public Integer getStatus_player() {
         return status_player;
     }
 
-    public void setStatus_player(TinyIntJdbcType status_player) {
+    public void setStatus_player(Integer status_player) {
         this.status_player = status_player;
     }
 
@@ -110,5 +122,18 @@ public class Player {
 
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id_player=" + id_player +
+                ", email_player='" + email + '\'' +
+                ", password_player='" + password_player + '\'' +
+                ", date_player=" + date_player +
+                ", pseudo_player='" + pseudo_player + '\'' +
+                ", lastConnection_player=" + lastConnection_player +
+                ", status_player='" + status_player + '\'' +
+                '}';
     }
 }
