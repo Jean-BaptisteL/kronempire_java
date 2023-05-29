@@ -10,6 +10,10 @@ const Connection = ({navigation}) => {
         }
     });
     const onSubmit = data => console.log(data);
+    // redirection to Home page after connection
+    // const onSubmit = navigation.navigate('Home');
+    const enterGame = navigation.navigate('Home');
+    
     return (
         <View style={styles.container}>
             <View>
@@ -54,9 +58,10 @@ const Connection = ({navigation}) => {
                         name="password"
                     />
                     {errors.password && errors.password.type == 'required' && <Text>Le mot de passe est obligatoire.</Text>}
+
                     <View>
                         <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')}/>
-                        <Button title="Se connecter" onPress={handleSubmit(onSubmit)} />
+                        <Button title="Se connecter" onPress={handleSubmit(onSubmit, enterGame)} />
                     </View>
                 </View>
             </View>
