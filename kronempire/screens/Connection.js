@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useForm, Controller } from "react-hook-form";
 
-const Connection = () => {
+const Connection = ({navigation}) => {
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -10,6 +10,10 @@ const Connection = () => {
         }
     });
     const onSubmit = data => console.log(data);
+    // redirection to Home page after connection
+    // const onSubmit = navigation.navigate('Home');
+    const enterGame = navigation.navigate('Home');
+    
     return (
         <View style={styles.container}>
             <View>
@@ -53,7 +57,7 @@ const Connection = () => {
                         name="password"
                     />
                     {errors.password && errors.password.type == 'required' && <Text>Le mot de passe est obligatoire.</Text>}
-                    <Button title="Se connecter" onPress={handleSubmit(onSubmit)} />
+                    <Button title="Se connecter" onPress={handleSubmit(onSubmit, enterGame)} />
                 </View>
             </View>
         </View>
