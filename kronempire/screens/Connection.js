@@ -9,10 +9,11 @@ const Connection = ({navigation}) => {
             password: ''
         }
     });
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        navigation.navigate('Home');
+    }
     // redirection to Home page after connection
     // const onSubmit = navigation.navigate('Home');
-    const enterGame = navigation.navigate('Home');
     
     return (
         <View style={styles.container}>
@@ -61,7 +62,8 @@ const Connection = ({navigation}) => {
 
                     <View>
                         <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')}/>
-                        <Button title="Se connecter" onPress={handleSubmit(onSubmit, enterGame)} />
+                        {/* <Button title="Se connecter" onPress={() => handleSubmit(onSubmit)} /> */}
+                        <Button title="Se connecter" onPress={() => navigation.navigate('Home')} />
                     </View>
                 </View>
             </View>
