@@ -9,6 +9,7 @@ import Connection from "./screens/Connection";
 import GameScreen from "./screens/GameScreen";
 import TemplateScreen from "./screens/TemplateScreen";
 import ResourceContainer from "./container/resourceContainerView";
+import SignIn from "./screens/SignIn";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,14 @@ export default function App() {
           component={Connection}
           options={{
             title: "KronEmpire - Connexion",
+            headerTitleAlign: "center",
+          }}
+        />
+        <Stack.Screen
+          name="SignIn"
+          component={SignIn}
+          options={{
+            title: "KronEmpire - Inscription",
             headerTitleAlign: "center",
           }}
         />

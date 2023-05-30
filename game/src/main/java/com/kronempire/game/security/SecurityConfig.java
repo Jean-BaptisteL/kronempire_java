@@ -1,4 +1,4 @@
-package com.kronempire.game;
+package com.kronempire.game.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
