@@ -17,8 +17,9 @@ const Connection = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View>
-                <Text>Connexion</Text>
+                <Text style={styles.title}>Connexion</Text>
                 <View>
+                    <Text style={styles.text}>Email</Text>
                     <Controller
                         control={control}
                         rules={{
@@ -37,7 +38,7 @@ const Connection = ({navigation}) => {
                     />
                     {errors.email && errors.email.type == 'required' && <Text>L'email est obligatoire.</Text>}
                     {errors.email && errors.email.type == 'pattern' && <Text>L'email doit être valide.</Text>}
-
+                    <Text style={styles.text}>Mot de passe</Text>
                     <Controller
                         control={control}
                         rules={{
@@ -57,7 +58,11 @@ const Connection = ({navigation}) => {
                         name="password"
                     />
                     {errors.password && errors.password.type == 'required' && <Text>Le mot de passe est obligatoire.</Text>}
-                    <Button title="Se connecter" onPress={handleSubmit(onSubmit, enterGame)} />
+
+                    <View>
+                        <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')}/>
+                        <Button title="Se connecter" onPress={handleSubmit(onSubmit, enterGame)} />
+                    </View>
                 </View>
             </View>
         </View>
@@ -68,7 +73,14 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
-        // verticalAlign: 'middle'
+        flex: 1,
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 35
+    },
+    text: {
+        fontSize: 20
     }
 });
 

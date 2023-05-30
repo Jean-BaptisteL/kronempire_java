@@ -1,3 +1,4 @@
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
@@ -19,6 +20,7 @@ export default function App() {
     // </View>
     <NavigationContainer independent={true}>
       <Stack.Navigator>
+
         <Stack.Screen
           name="Connection"
           component={Connection}
