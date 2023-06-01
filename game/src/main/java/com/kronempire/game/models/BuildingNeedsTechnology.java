@@ -3,7 +3,7 @@ package com.kronempire.game.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "building_needs_techn")
+@Table(name = "building_needs_tech")
 @IdClass(KeyBuildingTechnology.class)
 public class BuildingNeedsTechnology {
 

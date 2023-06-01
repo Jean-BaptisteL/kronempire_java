@@ -14,7 +14,20 @@ const Styles = StyleSheet.create({
     horizontalScrollMenu: {
       flex: 1,
       margin: 8,
+      alignItems: "center",
 
+    },
+    horizontalMenuItem: {
+      // fontSize:100,
+      color:'#FFFFFF',
+      borderWidth: 2,
+      borderColor: 'gold',
+      // backgroundColor: '#000000',
+      paddingLeft:8,
+      paddingRight:8,
+      // textShadowColor:'#000000',
+      // textShadowOffset:{width: 8, height: 8},
+      // textShadowRadius:33,  
     },
     imageValue: {
       flexDirection: "row",
@@ -89,6 +102,7 @@ const Styles = StyleSheet.create({
       // marginTop: -300,
       marginLeft: 10,
       alignSelf: 'center',
+      // borderRadius: 5,
     },
     buildingPriceIn: {
       flex: 1,

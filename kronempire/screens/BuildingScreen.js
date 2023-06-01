@@ -1,5 +1,5 @@
-import React from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { FlatList, SafeAreaView, ScrollView } from "react-native";
 import {
   Button,
   Image,
@@ -12,10 +12,38 @@ import {
 import { useRoute } from "@react-navigation/native";
 
 import ResourceContainer from "../container/resourceContainerView";
+import BuildingListNav from "../container/BuildingListNav";
 import Styles from "../styles/Styles";
 
 const BuildingScreen = () => {
   const router = useRoute();
+
+  const [buildingNames, setBuildingNames] = useState([
+    // Bâtiments ressources
+    {building: 1, name: 'Mine'},
+    {building: 2, name: 'Scierie'},
+    {building: 3, name: 'Distillerie de mana'},
+    {building: 4, name: 'Planque'},
+    // Bâtiments pour la population
+    {building: 5, name: 'Taverne'},
+    {building: 6, name: 'Autel'},
+    {building: 7, name: 'Habitation'},
+    {building: 8, name: 'Stadium'},
+    {building: 9, name: 'Temple'},
+    // Bâtiments avancés
+    {building: 10, name: 'Caserne'},
+    {building: 11, name: 'Observatoire arcanique'},
+    {building: 12, name: 'Portail de téléportation'},
+    {building: 13, name: 'Kronlard'},
+    {building: 14, name: 'Atelier de siège'},
+    {building: 15, name: 'Volière'},
+    // Bâtiments de défense
+    {building: 16, name: 'Barrière en bois'},
+    {building: 17, name: 'Rempart'},
+    {building: 18, name: 'Tourelle'},
+    {building: 19, name: 'Tourelle arcanique'},
+    {building: 20, name: 'Bouclier magique'},
+  ]);
 
   return (
     <View style={Styles.container}>
@@ -76,33 +104,14 @@ const BuildingScreen = () => {
         
         {/* 5 */}
         <View style={Styles.horizontalScrollMenu}>
-          <ScrollView horizontal={true}>
-            {/* Bâtiments ressources */}
-            <Text>Mine-</Text>
-            <Text>SCierie-</Text>
-            <Text>Distillerie de mana-</Text>
-            <Text>Planque-</Text>
-            {/* Bâtiments pour la population */}
-            <Text>Taverne-</Text>
-            <Text>Autel-</Text>
-            <Text>Habitation-</Text>
-            <Text>Stadium-</Text>
-            <Text>Temple-</Text>
-            {/* Bâtiments avancés */}
-            <Text>Caserne</Text>
-            <Text>Observatoire arcanique-</Text>
-            <Text>Portail de téléportation-</Text>
-            <Text>Kronlard-</Text>
-            <Text>Atelier de siège-</Text>
-            <Text>Volière</Text>
-            {/* Bâtiments de défense */}
-            <Text>Barrière en bois-</Text>
-            <Text>Rempart-</Text>
-            <Text>Tourell-e</Text>
-            <Text>Tourelle arcanique-</Text>
-            <Text>Bouclier magique</Text>
-          </ScrollView>
+          <FlatList
+            horizontal = {true} 
+            data = {buildingNames}
+            renderItem = { ({item}) => (<BuildingListNav buildingName={item}/>)}
+          />
         </View>
+
+
 
       </ImageBackground>
     </View>
