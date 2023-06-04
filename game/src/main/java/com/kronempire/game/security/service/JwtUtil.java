@@ -20,8 +20,9 @@ public class JwtUtil {
 
     //Retourne le corp du token
     public Claims extractionDuCorpDuToken(String token) {
+        byte[] secretBite = secret.getBytes();
         return Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(secretBite)
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -35,7 +36,7 @@ public class JwtUtil {
                 .setClaims(tokenData)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 

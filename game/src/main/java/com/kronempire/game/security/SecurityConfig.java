@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.ldap.EmbeddedLdapServerContextSourceFactoryBean;
+import org.springframework.security.config.ldap.LdapBindAuthenticationManagerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,12 +38,6 @@ public class SecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    /*
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }*/
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -49,48 +45,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("coucou");
-        http.csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/player/signin")
-                .permitAll()
-                .requestMatchers("/player/login")
-                .permitAll()
-                .anyRequest().authenticated();
-        /*http.authorizeHttpRequests(
-                auth -> auth
-                        .requestMatchers("/player/signin")
-                        .permitAll()
-                        .anyRequest().authenticated());
-        http.httpBasic(withDefaults());*/
 
-        /*http.cors().and().csrf()
-                .disable()
+        http.cors()
+                .and().httpBasic()
+                .and().csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/player/signin")
-                .permitAll()
-                .requestMatchers("/player/login")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);*/
+                .requestMatchers("/player/signin").permitAll()
+                .requestMatchers("/player/login").permitAll()
+                .anyRequest().authenticated()
+                .and().exceptionHandling()
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        /*http.authorizeRequests()
-                .requestMatchers("/player/signin")
-                .permitAll()
-                .and()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();*/
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
 
@@ -100,7 +67,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
 }

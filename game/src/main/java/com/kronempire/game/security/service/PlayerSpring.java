@@ -23,7 +23,7 @@ public class PlayerSpring implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList <SimpleGrantedAuthority> listeAuthority = new ArrayList<>();
         if(this.player.getStatus_player() == 1) {
-            listeAuthority.add(new SimpleGrantedAuthority(player.getRole()));
+            listeAuthority.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
         return listeAuthority ;
     }
