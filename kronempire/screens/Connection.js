@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 
 const Connection = ({navigation}) => {
 
-    const [error, setError] = React.useState('');
+    const [connexionError, setConnexionError] = React.useState('');
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -27,11 +27,12 @@ const Connection = ({navigation}) => {
                     password_player: data.password
                 }),
             });
+            console.log(response.status);
             if (response.status == 200) {
                 saveSecureStore('token', await response.text());
                 navigation.navigate('Home');
             } else {
-                setError('Email ou mot de passe incorrect');
+                setConnexionError('Email ou mot de passe incorrect');
             }
         } catch {
             error => {
@@ -46,6 +47,7 @@ const Connection = ({navigation}) => {
             <View>
                 <Text style={styles.title}>Connexion</Text>
                 <View>
+                    {connexionError == '' ? null : <Text>{connexionError}</Text>}
                     <Text style={styles.text}>Email</Text>
                     <Controller
                         control={control}
@@ -59,6 +61,7 @@ const Connection = ({navigation}) => {
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
+                                autoCapitalize='none'
                             />
                         )}
                         name="email"

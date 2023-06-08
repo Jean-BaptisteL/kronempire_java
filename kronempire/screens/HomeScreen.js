@@ -6,11 +6,11 @@ import * as SecureStore from 'expo-secure-store';
 
 import Styles from "../styles/Styles";
 
-const HomeScreen = async() => {
+const HomeScreen = () => {
 
   const router = useRoute();
 
-  console.log(await getSecureStoreValueFor('token'));
+  console.log(getSecureStoreValueFor('token'));
 
   return (
       <View style={Styles.container}>
