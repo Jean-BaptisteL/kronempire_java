@@ -2,12 +2,15 @@ import { useRoute } from "@react-navigation/native";
 import React from "react";
 import { ImageBackground, SafeAreaView } from "react-native";
 import { Image, StyleSheet, Text, View } from "react-native";
+import * as SecureStore from 'expo-secure-store';
 
 import Styles from "../styles/Styles";
 
-const HomeScreen = () => {
+const HomeScreen = async() => {
 
-    const router = useRoute();
+  const router = useRoute();
+
+  console.log(await getSecureStoreValueFor('token'));
 
   return (
       <View style={Styles.container}>
@@ -23,5 +26,14 @@ const HomeScreen = () => {
       </View>
   );
 };
+
+async function getSecureStoreValueFor(key) {
+  let result = await SecureStore.getItemAsync(key);
+  if (result) {
+    return result;
+  } else {
+    return null;
+  }
+}
 
 export default HomeScreen;

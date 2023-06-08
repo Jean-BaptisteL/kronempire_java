@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
 
-//@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/player")
 public class PlayerController {

@@ -1,19 +1,45 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useForm, Controller } from "react-hook-form";
+import * as SecureStore from 'expo-secure-store';
 
 const Connection = ({navigation}) => {
+
+    const [error, setError] = React.useState('');
+
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
             password: ''
         }
     });
-    const onSubmit = data => {
-        navigation.navigate('Home');
+
+    const onSubmit = async data => {
+        try {
+            const response = await fetch('http://192.168.1.10:8080/player/login', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    password_player: data.password
+                }),
+            });
+            if (response.status == 200) {
+                saveSecureStore('token', await response.text());
+                navigation.navigate('Home');
+            } else {
+                setError('Email ou mot de passe incorrect');
+            }
+        } catch {
+            error => {
+                console.error('erreur : ' + error);
+                setError('erreur : ' + error);
+            }
+        }
     }
-    // redirection to Home page after connection
-    // const onSubmit = navigation.navigate('Home');
     
     return (
         <View style={styles.container}>
@@ -63,7 +89,7 @@ const Connection = ({navigation}) => {
                     <View>
                         <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')}/>
                         {/* <Button title="Se connecter" onPress={() => handleSubmit(onSubmit)} /> */}
-                        <Button title="Se connecter" onPress={() => navigation.navigate('Home')} />
+                        <Button title="Se connecter" onPress={handleSubmit(onSubmit)} />
                     </View>
                 </View>
             </View>
@@ -85,5 +111,18 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 });
+
+async function saveSecureStore(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+  
+  async function getSecureStoreValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+      return result;
+    } else {
+      return null;
+    }
+  }
 
 export default Connection;
