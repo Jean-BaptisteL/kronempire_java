@@ -39,6 +39,8 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private Set<Message> messages;
 
+    private String role = "ROLE_USER";
+
     public Player(String email, String password_player, String pseudo_player) {
         this.email = email;
         this.password_player = password_player;
@@ -122,6 +124,10 @@ public class Player {
 
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     @Override

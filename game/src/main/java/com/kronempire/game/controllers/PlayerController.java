@@ -4,9 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kronempire.game.models.*;
 import com.kronempire.game.repository.*;
+import com.kronempire.game.security.service.JwtUtil;
+import com.kronempire.game.security.service.PlayerSpringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
 
-@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
@@ -44,8 +49,22 @@ public class PlayerController {
     @Autowired
     private PlayerHasUnitRepository playerHasUnitRepository;
 
+    private AuthenticationManager authenticationManager;
+
+    private PlayerSpringService userDetailsService;
+
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    public PlayerController(AuthenticationManager authenticationManager, PlayerSpringService userDetailsService, JwtUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<String> signIn(@RequestBody String playerJson) throws JsonProcessingException {
+        System.out.println("kjfglwi");
         ObjectMapper mapper = new ObjectMapper();
         Player player = mapper.readValue(playerJson, Player.class);
         System.out.println(playerJson);
@@ -109,5 +128,20 @@ public class PlayerController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> authentification(@RequestBody Player player) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            player.getEmail(), player.getPassword_player()));
+        }
+        catch (BadCredentialsException e) {
+            throw new Exception("Email ou mot de passe incorrect", e);
+        }
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(player.getEmail());
+        return ResponseEntity.ok(jwtUtil.generateToken(userDetails));
     }
 }

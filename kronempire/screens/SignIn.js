@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 const SignIn = ({ navigation }) => {
 
     const [registerResponse, setRegisterResponse] = useState('');
+    const [errorPwConfirm, setErrorPwConfirm] = useState('');
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -37,9 +38,8 @@ const SignIn = ({ navigation }) => {
                     console.error('erreur : ' + error);
                 }
             }
-            console.log(registerResponse);
         } else {
-            console.log('Confirmez le mot de passe');
+            setErrorPwConfirm('Doit être identique au mot de passe.');
         }
     }
     return (
@@ -127,7 +127,8 @@ const SignIn = ({ navigation }) => {
                         )}
                         name="passwordConfirm"
                     />
-                    {errors.passwordConfirm && errors.passwordConfirm.type == 'required' && <Text>Le mot de passe est obligatoire.</Text>}
+                    {errors.passwordConfirm && errors.passwordConfirm.type == 'required' ? <Text>Le mot de passe est obligatoire.</Text> : null}
+                    {errorPwConfirm != '' ? <Text>{errorPwConfirm}</Text> : null}
                     <View>
                         <Button title="Enregistrement" onPress={handleSubmit(onSubmit)} />
 
