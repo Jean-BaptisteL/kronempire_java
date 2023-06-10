@@ -4,6 +4,39 @@ import Styles from "../styles/Styles";
 import { useEffect, useState } from "react";
 
 const ResourceContainer = () => {
+  // console.log('ENTRE DANS RESOURCE CONTAINER');
+
+  const onLoading = async data => {
+    // const response = await fetch('http://192.168.1.7:8080/playerStat/get', {
+    //       method: 'GET',
+    //       headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'application/json',
+    //         Authorization: "Bearer " + token
+    //       },
+    //     });
+
+    try {
+      console.log('preeeeeeeseeeeeeent');
+      const response = await fetch('http://192.168.1.7:8080/playerStat/get', {
+        method: 'GET',
+        headears: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          wood: data.wood,
+        })
+    });
+    console.log('preeeeeeeseeeeeeent');
+    setRegisterResponse(await response.text());
+    } catch {
+      error => {
+        console.error('error' + error);
+      }
+    }
+  }
 
   function calculateResources(retrievedValue, xFactor) {
     const [newValue, setResourceValue] = useState(retrievedValue);

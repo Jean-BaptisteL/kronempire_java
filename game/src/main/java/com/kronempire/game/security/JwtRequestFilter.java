@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            playerEmail = jwtUtil.extractionDuCorpDuToken(jwt).getSubject();
+            playerEmail = jwtUtil.tokenBodyExtractor(jwt).getSubject();
         }
         if (playerEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.playerSpringService.loadUserByUsername(playerEmail);

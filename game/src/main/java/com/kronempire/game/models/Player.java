@@ -1,5 +1,6 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -33,9 +34,11 @@ public class Player {
     @Column(name="status_player", nullable = false)
     private Integer status_player;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "player")
     private Set<PlayerStat> stats;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "player")
     private Set<Message> messages;
 

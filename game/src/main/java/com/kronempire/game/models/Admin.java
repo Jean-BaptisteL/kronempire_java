@@ -1,5 +1,6 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -24,6 +25,7 @@ public class Admin {
     @Column(name = "lastname_admin", nullable = false, length = 25)
     private String lastname_admin;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "admin")
     private Set<Message> messages;
 

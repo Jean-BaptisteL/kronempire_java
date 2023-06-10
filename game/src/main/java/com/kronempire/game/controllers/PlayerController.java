@@ -6,6 +6,7 @@ import com.kronempire.game.models.*;
 import com.kronempire.game.repository.*;
 import com.kronempire.game.security.service.JwtUtil;
 import com.kronempire.game.security.service.PlayerSpringService;
+import com.kronempire.game.services.PlayerStatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
 
+    private Player playerInGame;
     @Autowired
     private PlayerRepository playerRepository;
 
@@ -52,6 +55,9 @@ public class PlayerController {
     private AuthenticationManager authenticationManager;
 
     private PlayerSpringService userDetailsService;
+
+    @Autowired
+    private PlayerStatService playerStatService;
 
     private JwtUtil jwtUtil;
 
@@ -131,17 +137,21 @@ public class PlayerController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> authentification(@RequestBody Player player) throws Exception {
+    public ResponseEntity<String> authentication(@RequestBody Player player) throws Exception {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            player.getEmail(), player.getPassword_player()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(player.getEmail(),
+                                                                                       player.getPassword_player()));
         }
         catch (BadCredentialsException e) {
             throw new Exception("Email ou mot de passe incorrect", e);
         }
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(player.getEmail());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(player.getEmail());
+
+//        Player connPlayer = playerRepository.findPlayerByEmail(player.getEmail());
+//
+//        // crash in PlayerStatImpl hibernate player not saved
+//        System.out.println(playerStatService.getPlayerStatByPlayer(connPlayer));
+
         return ResponseEntity.ok(jwtUtil.generateToken(userDetails));
     }
 }

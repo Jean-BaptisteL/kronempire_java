@@ -1,5 +1,6 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -57,11 +58,12 @@ public class PlayerStat {
     @Column(name = "coordinates_player_stat", nullable = false, length = 10)
     private String coordinates_player_stat;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_player")
     private Player player;
 
-    @OneToMany(mappedBy = "playerStat")
+    @JsonIgnore
+    @OneToMany(mappedBy = "playerStat", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<PlayerHasBuilding> buildings;
 
     public int getId_player_stat() {
@@ -174,5 +176,25 @@ public class PlayerStat {
 
     public void setBuildings(Set<PlayerHasBuilding> buildings) {
         this.buildings = buildings;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerStat{" +
+                "id_player_stat=" + id_player_stat +
+                ", score_player_stat=" + score_player_stat +
+                ", metalQuantity_player_stat=" + metalQuantity_player_stat +
+                ", woodQuantity_player_stat=" + woodQuantity_player_stat +
+                ", manaQuantity_player_stat=" + manaQuantity_player_stat +
+                ", kronQuantity_player_stat=" + kronQuantity_player_stat +
+                ", popQuantity_player_stat=" + popQuantity_player_stat +
+                ", moral_player_stat=" + moral_player_stat +
+                ", devotion_player_stat=" + devotion_player_stat +
+                ", victoryCnt_player_stat=" + victoryCnt_player_stat +
+                ", defeatCnt_player_stat=" + defeatCnt_player_stat +
+                ", coordinates_player_stat='" + coordinates_player_stat + '\'' +
+                ", player=" + player +
+                ", buildings=" + buildings +
+                '}';
     }
 }

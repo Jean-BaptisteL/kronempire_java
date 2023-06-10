@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useForm, Controller } from "react-hook-form";
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({ navigation }) => { 
 
     const [registerResponse, setRegisterResponse] = useState('');
     const [errorPwConfirm, setErrorPwConfirm] = useState('');
@@ -20,7 +20,7 @@ const SignIn = ({ navigation }) => {
         if (data.password == data.passwordConfirm) {
             try {
                 // TODO beware of URL
-                const response = await fetch('http://10.145.51.227:8080/player/signin', {
+                const response = await fetch('http://192.168.1.7:8080/player/signin', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',

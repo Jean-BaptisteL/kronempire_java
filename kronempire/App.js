@@ -7,7 +7,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Connection from "./screens/Connection";
 import GameScreen from "./screens/GameScreen";
-import TemplateScreen from "./screens/TemplateScreen";
 import ResourceContainer from "./container/resourceContainerView";
 import SignIn from "./screens/SignIn";
 
