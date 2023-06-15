@@ -1,5 +1,8 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -17,11 +20,13 @@ public class PlayerHasBuilding {
     @MapsId("id_player_stat")
     @ManyToOne
     @JoinColumn(name = "id_player_stat")
+    @JsonIgnore
     private PlayerStat playerStat;
 
     @MapsId("id_building")
     @ManyToOne
     @JoinColumn(name = "id_building")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Building building;
 
     @Column(name = "level", length = 5)

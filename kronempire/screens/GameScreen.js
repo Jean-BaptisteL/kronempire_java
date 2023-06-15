@@ -13,8 +13,6 @@ import ResourceContainer from "../container/resourceContainerView";
 
 const Tab = createBottomTabNavigator();
 
-const header = ResourceContainer;
-
 const GlobalScreen = () => {
   return (
     <NavigationContainer independent={true}>

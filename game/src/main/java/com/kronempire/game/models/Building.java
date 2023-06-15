@@ -149,4 +149,5 @@ public class Building {
     public void setMinimumPop_building(int minimumPop_building) {
         this.minimumPop_building = minimumPop_building;
     }
+
 }

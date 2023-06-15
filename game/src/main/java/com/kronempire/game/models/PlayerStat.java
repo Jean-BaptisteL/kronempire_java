@@ -1,8 +1,10 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -59,10 +61,12 @@ public class PlayerStat {
 
     @ManyToOne
     @JoinColumn(name = "id_player")
+    @JsonIgnore
     private Player player;
 
     @OneToMany(mappedBy = "playerStat")
-    private Set<PlayerHasBuilding> buildings;
+    @JsonIgnore
+    private List<PlayerHasBuilding> buildings;
 
     public int getId_player_stat() {
         return id_player_stat;
@@ -168,11 +172,11 @@ public class PlayerStat {
         this.coordinates_player_stat = coordinates_player_stat;
     }
 
-    public Set<PlayerHasBuilding> getBuildings() {
+    public List<PlayerHasBuilding> getBuildings() {
         return buildings;
     }
 
-    public void setBuildings(Set<PlayerHasBuilding> buildings) {
+    public void setBuildings(List<PlayerHasBuilding> buildings) {
         this.buildings = buildings;
     }
 }

@@ -112,12 +112,12 @@ const Styles = StyleSheet.create({
 
     },
     buildingPrice: {
-      flex: 1,
-      paddingBottom: 30,
+      // flex: 1,
+      // paddingBottom: 30,
 
     },
     buildingLocks: {
-      flex: 1,
+      // flex: 1,
 
     },
     buildinConstructionButton: {

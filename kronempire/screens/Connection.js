@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useForm, Controller } from "react-hook-form";
 import * as SecureStore from 'expo-secure-store';
 
-const Connection = ({navigation}) => {
+const Connection = ({ navigation }) => {
 
     const [connexionError, setConnexionError] = React.useState('');
 
@@ -16,7 +16,7 @@ const Connection = ({navigation}) => {
 
     const onSubmit = async data => {
         try {
-            const response = await fetch('http://192.168.1.10:8080/player/login', {
+            const response = await fetch('http://192.168.1.19:8080/player/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -27,7 +27,6 @@ const Connection = ({navigation}) => {
                     password_player: data.password
                 }),
             });
-            console.log(response.status);
             if (response.status == 200) {
                 saveSecureStore('token', await response.text());
                 navigation.navigate('Home');
@@ -41,7 +40,7 @@ const Connection = ({navigation}) => {
             }
         }
     }
-    
+
     return (
         <View style={styles.container}>
             <View>
@@ -90,7 +89,7 @@ const Connection = ({navigation}) => {
                     {errors.password && errors.password.type == 'required' && <Text>Le mot de passe est obligatoire.</Text>}
 
                     <View>
-                        <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')}/>
+                        <Button title="Créer un compte" onPress={() => navigation.navigate('SignIn')} />
                         {/* <Button title="Se connecter" onPress={() => handleSubmit(onSubmit)} /> */}
                         <Button title="Se connecter" onPress={handleSubmit(onSubmit)} />
                     </View>
@@ -117,15 +116,15 @@ const styles = StyleSheet.create({
 
 async function saveSecureStore(key, value) {
     await SecureStore.setItemAsync(key, value);
-  }
-  
-  async function getSecureStoreValueFor(key) {
+}
+
+async function getSecureStoreValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      return result;
+        return result;
     } else {
-      return null;
+        return null;
     }
-  }
+}
 
 export default Connection;

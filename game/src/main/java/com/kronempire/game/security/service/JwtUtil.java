@@ -3,11 +3,14 @@ package com.kronempire.game.security.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +22,9 @@ public class JwtUtil {
     private String secret;
 
     //Retourne le corp du token
-    public Claims extractionDuCorpDuToken(String token) {
-        byte[] secretBite = secret.getBytes();
-        return Jwts.parser()
-                .setSigningKey(secretBite)
-                .parseClaimsJws(token)
-                .getBody();
+    public Claims tokenBodyExtractor(String token) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -41,8 +41,8 @@ public class JwtUtil {
     }
 
     //Retourne vrai si le token n'a pas dépassé la date d'expiration
-    private Boolean tokenNonDepasseDateExpiration(String token) {
-        return extractionDuCorpDuToken(token)
+    private Boolean deprecatedToken(String token) {
+        return tokenBodyExtractor(token)
                 .getExpiration()
                 .after(new Date());
     }
@@ -50,7 +50,7 @@ public class JwtUtil {
     //Retourne vrai si le nom de l'utilisateur tentant de se connecter correspond
     //au subject du corp du token et si la date d'expiration n'est pas passée.
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractionDuCorpDuToken(token).getSubject();
-        return (username.equals(userDetails.getUsername()) && tokenNonDepasseDateExpiration(token));
+        final String username = tokenBodyExtractor(token).getSubject();
+        return (username.equals(userDetails.getUsername()) && deprecatedToken(token));
     }
 }

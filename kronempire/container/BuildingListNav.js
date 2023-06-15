@@ -3,15 +3,13 @@ import { View, Text, TouchableOpacity } from "react-native";
 
 import Styles from "../styles/Styles";
 
-const BuildingListNav = ({buildingName}) => {
+const BuildingListNav = ({building}) => {
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={test(building)}>
             <View>
-                <Text style={Styles.horizontalMenuItem}>{buildingName.name}</Text>
-
+                <Text style={Styles.horizontalMenuItem}>{building.name_building}</Text>
             </View>
-            
         </TouchableOpacity>
 
     );

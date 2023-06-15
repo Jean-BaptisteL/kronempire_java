@@ -10,8 +10,6 @@ const HomeScreen = () => {
 
   const router = useRoute();
 
-  console.log(getSecureStoreValueFor('token'));
-
   return (
       <View style={Styles.container}>
         <ImageBackground source={require("../assets/backgrounds/hourglass_bkgd.jpg")} 
