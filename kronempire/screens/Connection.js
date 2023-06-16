@@ -118,13 +118,4 @@ async function saveSecureStore(key, value) {
     await SecureStore.setItemAsync(key, value);
 }
 
-async function getSecureStoreValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    if (result) {
-        return result;
-    } else {
-        return null;
-    }
-}
-
 export default Connection;

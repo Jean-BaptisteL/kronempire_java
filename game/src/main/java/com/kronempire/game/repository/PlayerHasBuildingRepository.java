@@ -12,4 +12,6 @@ import java.util.List;
 public interface PlayerHasBuildingRepository extends JpaRepository<PlayerHasBuilding, Long>, CrudRepository<PlayerHasBuilding, Long> {
 
     List<PlayerHasBuilding> findPlayerHasBuildingByPlayerStat(PlayerStat playerStat);
+
+    PlayerHasBuilding findPlayerHasBuildingByPlayerStatIdAndBuildingId(Long id_player_stat, Long id_building);
 }

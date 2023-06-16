@@ -91,6 +91,7 @@ public class PlayerController {
                                 stat.setCoordinates_player_stat((playerStatNumber/10+1) + "-" + ((playerStatNumber % 10)+1));
                             }
                         }
+                        stat.setPopQuantity_player_stat(100);
                         playerStatRepository.save(stat);
                         PlayerStat newPlayerStat = playerStatRepository.findPlayerStatByPlayer(playerSaved);
                         List<Building> buildings = buildingRepository.findAll();

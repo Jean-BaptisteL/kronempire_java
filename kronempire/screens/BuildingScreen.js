@@ -4,7 +4,9 @@ import { Button, Image, ImageBackground, TouchableOpacity, Text, View, } from "r
 import Styles from "../styles/Styles";
 import * as SecureStore from 'expo-secure-store';
 
-const BuildingScreen = () => {
+const BuildingScreen = ({ route }) => {
+
+  const { fetchStats } = route.params;
 
   const [loading, setLoading] = useState(true);
 
@@ -23,6 +25,33 @@ const BuildingScreen = () => {
     }));
   }
 
+  const buildingContruction = async data => {
+    try {
+      const response = await fetch('http://192.168.1.19:8080/player/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password_player: data.password
+        }),
+      });
+      if (response.status == 200) {
+        saveSecureStore('token', await response.text());
+        navigation.navigate('Home');
+      } else {
+        setConnexionError('Email ou mot de passe incorrect');
+      }
+    } catch {
+      error => {
+        console.error('erreur : ' + error);
+        setError('erreur : ' + error);
+      }
+    }
+  };
+
   useEffect(() => {
     async function fetchBuildings() {
       token = await getSecureStoreValueFor('token');
@@ -35,7 +64,7 @@ const BuildingScreen = () => {
             Authorization: "Bearer " + token
           },
         });
-        var data = JSON.parse(await response.text())
+        var data = JSON.parse(await response.text());
         setBuildings(data.buildings);
         setBuildingsNeedsTech(data.buildingNeedsTechnologies);
       } catch (error) {
@@ -56,14 +85,12 @@ const BuildingScreen = () => {
       setLoading(false);
     }
   }, [showedBuilding]);
-  console.log(showedBuildingNeedsTech);
 
   var technologiesNeeded = [];
   for (let i = 0; i < showedBuildingNeedsTech.length; i++) {
     technologiesNeeded.push(
-      <Text>Technologie {showedBuildingNeedsTech[i].technology.name_tech} niv. {showedBuildingNeedsTech[i].level} </Text>
+      <Text key={i}>Technologie {showedBuildingNeedsTech[i].technology.name_tech} niv. {showedBuildingNeedsTech[i].level} </Text>
     );
-    
   }
 
   if (loading) {
@@ -116,7 +143,7 @@ const BuildingScreen = () => {
           <View style={Styles.buildinConstructionButton}>
             <Button
               styleDisabled={{ color: "grey" }}
-              onPress={() => console.log("Button pressed")}
+              onPress={() => buildingContruction()}
               title="Construire"
               style={Styles.buildinConstructionButton}
             >

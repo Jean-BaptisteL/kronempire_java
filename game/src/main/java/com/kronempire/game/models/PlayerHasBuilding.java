@@ -26,7 +26,7 @@ public class PlayerHasBuilding {
     @MapsId("id_building")
     @ManyToOne
     @JoinColumn(name = "id_building")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_building")
     private Building building;
 
     @Column(name = "level", length = 5)
