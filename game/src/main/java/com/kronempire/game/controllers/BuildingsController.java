@@ -40,20 +40,21 @@ public class BuildingsController {
         }
     }
 
-    @PostMapping("/sendBuildingInfo")
-    public ResponseEntity<String> sendConstructionBuildingInfo(@RequestBody String buildingJson) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Building building = mapper.readValue(buildingJson, Building.class);
-            System.out.println(" info about clicked builging ::" + building.toString());
-            return new ResponseEntity<>("Building construction is in progress", HttpStatus.OK);
-        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-            return new ResponseEntity<>("Building construction failles", HttpStatus.BAD_REQUEST);
-
-        }
-
-//        return new ResponseEntity<>("Building construction is in progress", HttpStatus.OK);
-    }
+//    @PostMapping("/sendBuildingInfo")
+//    public ResponseEntity<String> sendConstructionBuildingInfo(@RequestBody String buildingJson) throws JsonProcessingException {
+//        System.out.println("je suis la batiment");
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            Building building = mapper.readValue(buildingJson, Building.class);
+//            System.out.println(" info about clicked builging ::" + building.toString());
+//            return new ResponseEntity<>("Building construction is in progress", HttpStatus.OK);
+//        } catch (JsonProcessingException e) {
+////            throw new RuntimeException(e);
+//            return new ResponseEntity<>("Building construction failles", HttpStatus.BAD_REQUEST);
+//
+//        }
+//
+////        return new ResponseEntity<>("Building construction is in progress", HttpStatus.OK);
+//    }
 
 }

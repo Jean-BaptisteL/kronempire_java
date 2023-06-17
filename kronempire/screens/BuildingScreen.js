@@ -31,7 +31,7 @@ const BuildingScreen = ({ route }) => {
   // const buildingContruction = async data => {
     token = await getSecureStoreValueFor('token');
     try {
-      const response = await fetch('http://192.168.1.7:8080/buildings/sendBuildingInfo', {
+      const response = await fetch('http://192.168.1.7:8080/stats/construct', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -146,7 +146,6 @@ const BuildingScreen = ({ route }) => {
           <View style={Styles.buildinConstructionButton}>
             <Button
               styleDisabled={{ color: "grey" }}
-              // il faut idPlayerStat et idBuilding
               onPress={() => buildingContruction(shownBuilding.id_building)}
               title={buttonLabel}
               style={Styles.buildinConstructionButton}
