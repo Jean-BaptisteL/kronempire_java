@@ -16,6 +16,7 @@ export default function App() {
 
   const [playerStats, setPlayerStats] = useState({});
   const [playerHasBuildings, setPlayerHasBuildings] = useState({});
+  const [buildingConstruction, setBuildingConstruction] = useState({});
 
   async function getSecureStoreValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
@@ -26,11 +27,15 @@ export default function App() {
     }
   }
 
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
   // Récupération des statistique du joueur
   async function fetchStats() {
     token = await getSecureStoreValueFor('token');
     try {
-      const response = await fetch('http://192.168.1.7:8080/stats/get', {
+      const response = await fetch('http://192.168.1.19:8080/stats/get', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -42,6 +47,7 @@ export default function App() {
         var data = JSON.parse(await response.text());
         setPlayerStats(data.stat);
         setPlayerHasBuildings(data.playerHasBuildings);
+        setBuildingConstruction(data.buildingConstruction == null ? {} : data.buildingConstruction);
       } else {
         alert('Une erreur s\'est produite');
       }
@@ -75,7 +81,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={GameScreen}
-          initialParams={{ fetchStats: fetchStats }}
+          initialParams={{ fetchStats: fetchStats, buildingConstruction: buildingConstruction }}
           options={{
             //   title: 'KronEmpire',
             // headerTitleAlign: 'center',

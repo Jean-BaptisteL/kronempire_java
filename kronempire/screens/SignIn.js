@@ -20,7 +20,7 @@ const SignIn = ({ navigation }) => {
         if (data.password == data.passwordConfirm) {
             try {
                 // TODO beware of URL
-                const response = await fetch('http://192.168.1.7:8080/player/signin', {
+                const response = await fetch('http://192.168.1.19:8080/player/signin', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',

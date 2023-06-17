@@ -15,6 +15,11 @@ const Tab = createBottomTabNavigator();
 const GlobalScreen = ({ route }) => {
 
   const { fetchStats } = route.params;
+  const { buildingConstruction } = route.params;
+
+  function runFetchStats() {  
+    fetchStats();
+  }
 
   return (
     <NavigationContainer independent={true}>
@@ -26,6 +31,7 @@ const GlobalScreen = ({ route }) => {
         <Tab.Screen
           name="Accueil"
           component={HomeScreen}
+          initialParams={{buildingConstruction: buildingConstruction}}
           options={{
             headerShown: false,
             tabBarIcon: ({ size, focused, color }) => {
@@ -41,7 +47,7 @@ const GlobalScreen = ({ route }) => {
         <Tab.Screen
           name="Bâtiments"
           component={BuildingScreen}
-          initialParams={{fetchStats: fetchStats}}
+          initialParams={{fetchStats: runFetchStats, buildingConstruction: buildingConstruction}}
           options={{
             headerShown: false,
             tabBarIcon: ({ size, focused, color }) => {

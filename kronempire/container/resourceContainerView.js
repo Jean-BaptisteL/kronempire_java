@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 const ResourceContainer = ({playerStats, playerHasBuildings}) => {
 
+  console.log(playerHasBuildings);
+
   function calculateResources(retrievedValue, xFactor) {
     const [newValue, setResourceValue] = useState(retrievedValue);
     useEffect( () => {
@@ -18,13 +20,13 @@ const ResourceContainer = ({playerStats, playerHasBuildings}) => {
     return Math.trunc(newValue);
   };
 
-  const renderOre = () => {return parseInt(calculateResources(1, 6.2))};
-  const renderWood = () => {return parseInt(calculateResources(1, 5.2))};
-  const renderMana = () => {return parseInt(calculateResources(1, 4.2))};
-  const renderKron = () => {return parseInt(calculateResources(1, 3.2))};
-  const renderPopulation = () => {return parseInt(calculateResources(1, 2.2))};
-  const renderMood = () => {return parseInt(calculateResources(1, 1.2))};
-  const renderDevotion = () => {return parseInt(calculateResources(1, 1.2))};
+  const renderOre = () => {return parseInt(calculateResources(playerStats.metalQuantity_player_stat, playerHasBuildings[0].building.levelFactor_building * (1 + playerHasBuildings[0].level)))};
+  const renderWood = () => {return parseInt(calculateResources(playerStats.woodQuantity_player_stat, playerHasBuildings[1].building.levelFactor_building * (1 + playerHasBuildings[1].level)))};
+  const renderMana = () => {return parseInt(calculateResources(playerStats.manaQuantity_player_stat, playerHasBuildings[2].building.levelFactor_building * (1 + playerHasBuildings[2].level)))};
+  const renderKron = () => {return parseInt(calculateResources(playerStats.kronQuantity_player_stat, 0.1 * playerStats.popQuantity_player_stat))};
+  const renderPopulation = () => {return parseInt(calculateResources(playerStats.popQuantity_player_stat, 2.2))};
+  const renderMood = () => {return 50};
+  const renderDevotion = () => {return 50};
 
   return (
     <View style={Styles.resourcesGlobal}>

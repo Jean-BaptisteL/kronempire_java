@@ -93,7 +93,7 @@ public class PlayerStatController {
         int woodPrice = building.getWoodPrice_building() * building.getPriceFactor_building() * buildingLevel;
         int manaPrice = building.getManaPrice_building() * building.getPriceFactor_building() * buildingLevel;
         int kronPrice = building.getKronPrice_building() * building.getPriceFactor_building() * buildingLevel;
-        LocalDateTime buildTime = LocalDateTime.now().plusSeconds(building.getBuildTime_building() * building.getTimeFactor_building() * buildingLevel);
+        LocalDateTime buildTime = LocalDateTime.now().plusSeconds((long) building.getBuildTime_building() * building.getTimeFactor_building() * buildingLevel);
 
         //Calcul et sauvegarde des ressources réelles du joueur
         int playerMetal = playerStat.getMetalQuantity_player_stat() + (playerHasMine.getBuilding().getLevelFactor_building() * (1 + playerHasMine.getLevel()) * seconds);
@@ -110,7 +110,6 @@ public class PlayerStatController {
         playerStat.setManaQuantity_player_stat(playerMana);
         playerStat.setPopQuantity_player_stat(playerPop);
         playerStat.setKronQuantity_player_stat(playerKron);
-        System.out.println(playerStat.getMetalQuantity_player_stat());
 
         if(metalPrice > playerMetal || woodPrice > playerWood || manaPrice > playerMana || kronPrice > playerKron) {
             return new ResponseEntity<>("Les ressources sont inférieures aux prix.", HttpStatus.NOT_ACCEPTABLE);
