@@ -12,37 +12,40 @@ const BuildingScreen = ({ route }) => {
 
   const [buildings, setBuildings] = useState([]);
 
-  const [showedBuilding, setShowedBuilding] = useState({});
+  const [shownBuilding, setShownBuilding] = useState({});
 
   const [buildingsNeedsTech, setBuildingsNeedsTech] = useState({});
 
-  const [showedBuildingNeedsTech, setShowedBuildingNeedsTech] = useState([]);
+  const [shownBuildingNeedsTech, setShownBuildingNeedsTech] = useState([]);
+
+  const [buttonLabel, setButtonLabel] = useState("Construire");
 
   const showBuilding = (building) => {
-    setShowedBuilding(building);
-    setShowedBuildingNeedsTech(buildingsNeedsTech.filter(bNT => {
+    setShownBuilding(building);
+    setShownBuildingNeedsTech(buildingsNeedsTech.filter(bNT => {
       return bNT.building.id_building === building.id_building
     }));
   }
 
-  const buildingContruction = async data => {
+  async function buildingContruction(data) {
+  // const buildingContruction = async data => {
+    token = await getSecureStoreValueFor('token');
     try {
-      const response = await fetch('http://192.168.1.19:8080/player/login', {
+      const response = await fetch('http://192.168.1.7:8080/buildings/sendBuildingInfo', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: "Bearer " + token
         },
         body: JSON.stringify({
-          email: data.email,
-          password_player: data.password
+          buildingId: data,
         }),
       });
       if (response.status == 200) {
-        saveSecureStore('token', await response.text());
-        navigation.navigate('Home');
+        setButtonLabel("Abandonner");
       } else {
-        setConnexionError('Email ou mot de passe incorrect');
+        // pop up message ; construction non lancée parce que
       }
     } catch {
       error => {
@@ -56,7 +59,7 @@ const BuildingScreen = ({ route }) => {
     async function fetchBuildings() {
       token = await getSecureStoreValueFor('token');
       try {
-        const response = await fetch('http://192.168.1.19:8080/buildings/all', {
+        const response = await fetch('http://192.168.1.7:8080/buildings/all', {
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -76,20 +79,20 @@ const BuildingScreen = ({ route }) => {
 
   useEffect(() => {
     if (buildings.length != 0) {
-      setShowedBuilding(buildings[0]);
+      setShownBuilding(buildings[0]);
     }
   }, [buildings]);
 
   useEffect(() => {
-    if (Object.keys(showedBuilding).length != 0) {
+    if (Object.keys(shownBuilding).length != 0) {
       setLoading(false);
     }
-  }, [showedBuilding]);
+  }, [shownBuilding]);
 
   var technologiesNeeded = [];
-  for (let i = 0; i < showedBuildingNeedsTech.length; i++) {
+  for (let i = 0; i < shownBuildingNeedsTech.length; i++) {
     technologiesNeeded.push(
-      <Text key={i}>Technologie {showedBuildingNeedsTech[i].technology.name_tech} niv. {showedBuildingNeedsTech[i].level} </Text>
+      <Text key={i}>Technologie {shownBuildingNeedsTech[i].technology.name_tech} niv. {shownBuildingNeedsTech[i].level} </Text>
     );
   }
 
@@ -110,7 +113,7 @@ const BuildingScreen = ({ route }) => {
         >
           {/* game container */}
           {/* 1 */}
-          <Text style={Styles.tabName}>{showedBuilding.name_building}</Text>
+          <Text style={Styles.tabName}>{shownBuilding.name_building}</Text>
           {/* 2 */}
           <View style={Styles.buildingLevel}>
             <Text>Niveau actuel du bati : +ressouces/sec</Text>
@@ -125,14 +128,14 @@ const BuildingScreen = ({ route }) => {
             {/* Carracteristiques pour le niveau suivant (sur la droite) */}
             <View style={Styles.buildingPriceIn}>
               <View style={Styles.buildingPrice}>
-                <Text>Cout en Minerai : {showedBuilding.metalPrice_building}</Text>
-                <Text>Cout en Bois: {showedBuilding.woodPrice_building}</Text>
-                <Text>Cout en Mana: {showedBuilding.manaPrice_building}</Text>
-                <Text>Cout en Kron: {showedBuilding.kronPrice_building}</Text>
+                <Text>Cout en Minerai : {shownBuilding.metalPrice_building}</Text>
+                <Text>Cout en Bois: {shownBuilding.woodPrice_building}</Text>
+                <Text>Cout en Mana: {shownBuilding.manaPrice_building}</Text>
+                <Text>Cout en Kron: {shownBuilding.kronPrice_building}</Text>
 
-                <Text>Temps de construction : {showedBuilding.buildTime_building} sec.</Text>
+                <Text>Temps de construction : {shownBuilding.buildTime_building} sec.</Text>
               </View>
-              {showedBuildingNeedsTech.length != 0 ?
+              {shownBuildingNeedsTech.length != 0 ?
                 <View style={Styles.buildingLocks}>
                   <Text>Nécessite:</Text>
                   {technologiesNeeded}
@@ -143,8 +146,9 @@ const BuildingScreen = ({ route }) => {
           <View style={Styles.buildinConstructionButton}>
             <Button
               styleDisabled={{ color: "grey" }}
-              onPress={() => buildingContruction()}
-              title="Construire"
+              // il faut idPlayerStat et idBuilding
+              onPress={() => buildingContruction(shownBuilding.id_building)}
+              title={buttonLabel}
               style={Styles.buildinConstructionButton}
             >
               Construire
@@ -155,7 +159,7 @@ const BuildingScreen = ({ route }) => {
           <View style={Styles.buildingDescription}>
             <Text>Description:</Text>
             <Text style={Styles.buildingDescriptionParaph}>
-              {showedBuilding.description_building}
+              {shownBuilding.description_building}
             </Text>
           </View>
 
