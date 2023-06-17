@@ -16,4 +16,6 @@ public class ConstructionQueue {
 
     public Map<Integer, Map<String, Integer>> constructionsPrices = new HashMap<>();
 
+    public Map<Integer, Map<String, String>> constructionList = new HashMap<>();
+
 }
