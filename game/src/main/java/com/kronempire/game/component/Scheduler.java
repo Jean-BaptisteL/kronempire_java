@@ -37,7 +37,8 @@ public class Scheduler {
                 Map<PlayerHasBuilding, Map<String, Integer>> value = entry.getValue();
                 for (Map.Entry<PlayerHasBuilding, Map<String, Integer>> buildingMapEntry : value.entrySet()) {
                     PlayerHasBuilding playerHasBuilding = buildingMapEntry.getKey();
-                    constructionQueue.constructionsPrices.remove(playerHasBuilding);
+                    constructionQueue.constructionsPrices.remove(playerHasBuilding.getPlayerStatId());
+                    constructionQueue.constructionList.remove(playerHasBuilding.getPlayerStatId());
                     Map<String, Integer> prices = buildingMapEntry.getValue();
                     PlayerStat playerStat = playerHasBuilding.getPlayerStat();
                     playerStat.setMetalQuantity_player_stat(playerStat.getMetalQuantity_player_stat() - prices.get("metalPrice"));

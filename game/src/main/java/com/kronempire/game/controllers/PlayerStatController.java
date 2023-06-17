@@ -65,6 +65,7 @@ public class PlayerStatController {
         Map<String, Object> data = new HashMap<>();
         data.put("stat", stats);
         data.put("playerHasBuildings", playerHasBuildings);
+        data.put("buildingConstruction", constructionQueue.constructionList.get(stats.getId_player_stat()));
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
@@ -127,6 +128,10 @@ public class PlayerStatController {
             constructionQueue.buildingsConstructions.put(buildTime, playerBuildingPrice);
         }
         constructionQueue.constructionsPrices.put(playerStat.getId_player_stat(), price);
+        Map<String, String> playerConstruction = new HashMap<>();
+        playerConstruction.put("building" , building.getName_building());
+        playerConstruction.put("date", buildTime.toString());
+        constructionQueue.constructionList.put(playerStat.getId_player_stat(), playerConstruction);
         player.setLastConnection_player(LocalDateTime.now());
         playerStatRepository.save(playerStat);
         playerRepository.save(player);
