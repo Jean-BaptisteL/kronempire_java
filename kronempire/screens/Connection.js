@@ -16,7 +16,7 @@ const Connection = ({ navigation }) => {
 
     const onSubmit = async data => {
         try {
-            const response = await fetch('http://192.168.1.19:8080/player/login', {
+            const response = await fetch('http://192.168.1.7:8080/player/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

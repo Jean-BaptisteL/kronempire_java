@@ -1,8 +1,6 @@
 package com.kronempire.game.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kronempire.game.component.Scheduler;
 import com.kronempire.game.models.Building;
 import com.kronempire.game.models.Player;
 import com.kronempire.game.models.PlayerHasBuilding;
@@ -18,13 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/stats")
@@ -70,16 +66,24 @@ public class PlayerStatController {
     }
 
     @PutMapping("/construct")
-    public ResponseEntity<String> buildingConstruction(@RequestBody Map<String, Long> data) throws JsonProcessingException {
-        PlayerHasBuilding playerHasBuilding = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), data.get("id_building"));
-        PlayerHasBuilding playerHasMine = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), 1L);
-        PlayerHasBuilding playerHasScierie = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), 2L);
-        PlayerHasBuilding playerHasMana = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), 3L);
-        PlayerHasBuilding playerHasHouses = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), 7L);
-        PlayerStat playerStat = playerHasBuilding.getPlayerStat();
+    public ResponseEntity<String> buildingConstruction(HttpServletRequest request, @RequestBody Map<String, Long> data) throws JsonProcessingException {
+        String authorizationHeader = request.getHeader("Authorization");
+        String playerEmail = null;
+        String jwt = null;
+        jwt = authorizationHeader.substring(7);
+        playerEmail = jwtUtil.tokenBodyExtractor(jwt).getSubject();
+
+        Player player = playerRepository.findPlayerByEmail(playerEmail);
+        PlayerStat playerStat = playerStatRepository.findPlayerStatByPlayer(player);
+
+        PlayerHasBuilding playerHasBuilding = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId((long) playerStat.getId_player_stat(), data.get("buildingId"));
+        PlayerHasBuilding playerHasMine = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId((long) playerStat.getId_player_stat(), 1L);
+        PlayerHasBuilding playerHasScierie = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId((long) playerStat.getId_player_stat(), 2L);
+        PlayerHasBuilding playerHasMana = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId((long) playerStat.getId_player_stat(), 3L);
+        PlayerHasBuilding playerHasHouses = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId((long) playerStat.getId_player_stat(), 7L);
+
         int buildingLevel = playerHasBuilding.getLevel() + 1;
         Building building = playerHasBuilding.getBuilding();
-        Player player = playerHasBuilding.getPlayerStat().getPlayer();
 
         // Nombre de secondes depuis la dernière action du joueur
         int seconds = (int) Duration.between(player.getLastConnection_player(), LocalDateTime.now()).getSeconds();
@@ -99,6 +103,7 @@ public class PlayerStatController {
         int playerPopLimite = 100 + (100 * playerHasHouses.getBuilding().getLevelFactor_building() * playerHasHouses.getLevel());
         int playerPopTheoric = (int) (playerStat.getPopQuantity_player_stat() + (playerStat.getPopQuantity_player_stat() * 0.01 * seconds));
         playerPop = Math.min(playerPopTheoric, playerPopLimite);
+
         int playerKron = (int) (playerStat.getKronQuantity_player_stat() + (0.1 * playerPop * seconds));
         playerStat.setMetalQuantity_player_stat(playerMetal);
         playerStat.setWoodQuantity_player_stat(playerWood);
@@ -110,16 +115,19 @@ public class PlayerStatController {
         if(metalPrice > playerMetal || woodPrice > playerWood || manaPrice > playerMana || kronPrice > playerKron) {
             return new ResponseEntity<>("Les ressources sont inférieures aux prix.", HttpStatus.NOT_ACCEPTABLE);
         }
+
         //Ajout dans la liste des constructions en cours
         Map<String, Integer> price = new HashMap<>();
         price.put("metalPrice", metalPrice);
         price.put("woodPrice", woodPrice);
         price.put("manaPrice", manaPrice);
         price.put("kronPrice", kronPrice);
+
         if (playerStat.isBuildInProgress()) {
             return new ResponseEntity<>("Une construction est déjà en cours.", HttpStatus.NOT_ACCEPTABLE);
         }
         playerStat.setBuildInProgress(true);
+
         if (constructionQueue.buildingsConstructions.containsKey(buildTime)) {
             constructionQueue.buildingsConstructions.get(buildTime).put(playerHasBuilding, price);
         } else {
@@ -127,10 +135,13 @@ public class PlayerStatController {
             playerBuildingPrice.put(playerHasBuilding, price);
             constructionQueue.buildingsConstructions.put(buildTime, playerBuildingPrice);
         }
+
         constructionQueue.constructionsPrices.put(playerStat.getId_player_stat(), price);
+
         Map<String, String> playerConstruction = new HashMap<>();
         playerConstruction.put("building" , building.getName_building());
         playerConstruction.put("date", buildTime.toString());
+
         constructionQueue.constructionList.put(playerStat.getId_player_stat(), playerConstruction);
         player.setLastConnection_player(LocalDateTime.now());
         playerStatRepository.save(playerStat);
