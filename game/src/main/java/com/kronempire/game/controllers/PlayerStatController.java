@@ -7,6 +7,7 @@ import com.kronempire.game.models.Building;
 import com.kronempire.game.models.Player;
 import com.kronempire.game.models.PlayerHasBuilding;
 import com.kronempire.game.models.PlayerStat;
+import com.kronempire.game.queues.ConstructionQueue;
 import com.kronempire.game.repository.PlayerHasBuildingRepository;
 import com.kronempire.game.repository.PlayerRepository;
 import com.kronempire.game.repository.PlayerStatRepository;
@@ -42,7 +43,7 @@ public class PlayerStatController {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private Scheduler scheduler;
+    private ConstructionQueue constructionQueue;
 
     @GetMapping("/get")
     public ResponseEntity<Map<String,Object>> getStats(HttpServletRequest request) {
@@ -54,6 +55,13 @@ public class PlayerStatController {
         Player player = playerRepository.findPlayerByEmail(playerEmail);
         PlayerStat stats = player.getStats().get(0);
         List<PlayerHasBuilding> playerHasBuildings = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStat(stats);
+        Map<String, Integer> constructionList = constructionQueue.constructionsPrices.get(stats.getId_player_stat());
+        if (stats.isBuildInProgress()){
+            stats.setMetalQuantity_player_stat(stats.getMetalQuantity_player_stat() - constructionList.get("metalPrice"));
+            stats.setWoodQuantity_player_stat(stats.getWoodQuantity_player_stat() - constructionList.get("woodPrice"));
+            stats.setManaQuantity_player_stat(stats.getManaQuantity_player_stat() - constructionList.get("manaPrice"));
+            stats.setKronQuantity_player_stat(stats.getMetalQuantity_player_stat() - constructionList.get("kronPrice"));
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("stat", stats);
         data.put("playerHasBuildings", playerHasBuildings);
@@ -61,7 +69,7 @@ public class PlayerStatController {
     }
 
     @PutMapping("/construct")
-    public ResponseEntity<Map<String,Object>> buildingConstruction(@RequestBody Map<String, Long> data) throws JsonProcessingException {
+    public ResponseEntity<String> buildingConstruction(@RequestBody Map<String, Long> data) throws JsonProcessingException {
         PlayerHasBuilding playerHasBuilding = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), data.get("id_building"));
         PlayerHasBuilding playerHasMine = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), 1L);
         PlayerHasBuilding playerHasScierie = playerHasBuildingRepository.findPlayerHasBuildingByPlayerStatIdAndBuildingId(data.get("id_player_stat"), 2L);
@@ -75,11 +83,12 @@ public class PlayerStatController {
         // Nombre de secondes depuis la dernière action du joueur
         int seconds = (int) Duration.between(player.getLastConnection_player(), LocalDateTime.now()).getSeconds();
 
-        // Calcul du prix du bâtiment
+        // Calcul du prix du bâtiment et du temps de construction
         int metalPrice = building.getMetalPrice_building() * building.getPriceFactor_building() * buildingLevel;
         int woodPrice = building.getWoodPrice_building() * building.getPriceFactor_building() * buildingLevel;
         int manaPrice = building.getManaPrice_building() * building.getPriceFactor_building() * buildingLevel;
         int kronPrice = building.getKronPrice_building() * building.getPriceFactor_building() * buildingLevel;
+        LocalDateTime buildTime = LocalDateTime.now().plusSeconds(building.getBuildTime_building() * building.getTimeFactor_building() * buildingLevel);
 
         //Calcul et sauvegarde des ressources réelles du joueur
         int playerMetal = playerStat.getMetalQuantity_player_stat() + (playerHasMine.getBuilding().getLevelFactor_building() * (1 + playerHasMine.getLevel()) * seconds);
@@ -96,26 +105,31 @@ public class PlayerStatController {
         playerStat.setPopQuantity_player_stat(playerPop);
         playerStat.setKronQuantity_player_stat(playerKron);
         System.out.println(playerStat.getMetalQuantity_player_stat());
-        //playerStatRepository.save(playerStat);
 
-        /*if(metalPrice > playerMetal || woodPrice > playerWood || manaPrice > playerMana || kronPrice > playerKron) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }*/
+        if(metalPrice > playerMetal || woodPrice > playerWood || manaPrice > playerMana || kronPrice > playerKron) {
+            return new ResponseEntity<>("Les ressources sont inférieures aux prix.", HttpStatus.NOT_ACCEPTABLE);
+        }
         //Ajout dans la liste des constructions en cours
         Map<String, Integer> price = new HashMap<>();
         price.put("metalPrice", metalPrice);
         price.put("woodPrice", woodPrice);
         price.put("manaPrice", manaPrice);
         price.put("kronPrice", kronPrice);
-        if (scheduler.buildingsConstructions.containsKey(LocalDateTime.now())) {
-            scheduler.buildingsConstructions.get(LocalDateTime.now()).put(playerHasBuilding, price);
+        if (playerStat.isBuildInProgress()) {
+            return new ResponseEntity<>("Une construction est déjà en cours.", HttpStatus.NOT_ACCEPTABLE);
+        }
+        playerStat.setBuildInProgress(true);
+        if (constructionQueue.buildingsConstructions.containsKey(buildTime)) {
+            constructionQueue.buildingsConstructions.get(buildTime).put(playerHasBuilding, price);
         } else {
             Map<PlayerHasBuilding, Map<String, Integer>> playerBuildingPrice = new HashMap<>();
             playerBuildingPrice.put(playerHasBuilding, price);
-            scheduler.buildingsConstructions.put(LocalDateTime.now(), playerBuildingPrice);
+            constructionQueue.buildingsConstructions.put(buildTime, playerBuildingPrice);
         }
+        constructionQueue.constructionsPrices.put(playerStat.getId_player_stat(), price);
         player.setLastConnection_player(LocalDateTime.now());
-        //playerRepository.save(player);
-        return null;
+        playerStatRepository.save(playerStat);
+        playerRepository.save(player);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }
