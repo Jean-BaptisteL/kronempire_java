@@ -1,8 +1,11 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -59,10 +62,24 @@ public class PlayerStat {
 
     @ManyToOne
     @JoinColumn(name = "id_player")
+    @JsonIgnore
     private Player player;
 
     @OneToMany(mappedBy = "playerStat")
-    private Set<PlayerHasBuilding> buildings;
+    @JsonIgnore
+    private List<PlayerHasBuilding> buildings;
+
+    @Column(name = "buildInProgress_player_stat")
+    private Boolean buildInProgress;
+
+    @Column(name = "technoInProgress_player_stat")
+    private Boolean technoInProgress;
+
+    @Column(name = "unitsInProgress_player_stat")
+    private Boolean unitsInProgress;
+
+    @Column(name = "eventInProgress_player_stat")
+    private Boolean eventInProgress;
 
     public int getId_player_stat() {
         return id_player_stat;
@@ -168,11 +185,43 @@ public class PlayerStat {
         this.coordinates_player_stat = coordinates_player_stat;
     }
 
-    public Set<PlayerHasBuilding> getBuildings() {
+    public List<PlayerHasBuilding> getBuildings() {
         return buildings;
     }
 
-    public void setBuildings(Set<PlayerHasBuilding> buildings) {
+    public void setBuildings(List<PlayerHasBuilding> buildings) {
         this.buildings = buildings;
+    }
+
+    public boolean isBuildInProgress() {
+        return buildInProgress;
+    }
+
+    public void setBuildInProgress(boolean buildInProgress) {
+        this.buildInProgress = buildInProgress;
+    }
+
+    public boolean isTechnoInProgress() {
+        return technoInProgress;
+    }
+
+    public void setTechnoInProgress(boolean technoInProgress) {
+        this.technoInProgress = technoInProgress;
+    }
+
+    public boolean isUnitsInProgress() {
+        return unitsInProgress;
+    }
+
+    public void setUnitsInProgress(boolean unitsInProgress) {
+        this.unitsInProgress = unitsInProgress;
+    }
+
+    public boolean isEventInProgress() {
+        return eventInProgress;
+    }
+
+    public void setEventInProgress(boolean eventInProgress) {
+        this.eventInProgress = eventInProgress;
     }
 }

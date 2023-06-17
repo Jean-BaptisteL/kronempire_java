@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { SafeAreaView } from "react-native";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer, Router } from "@react-navigation/native";
@@ -9,13 +9,13 @@ import BuildingScreen from "./BuildingScreen";
 import TechnologyScreen from "./TechnologyScreen";
 import RecruitmentScreen from "./RecruitmentScreen";
 import WorldScreen from "./WorldScreen";
-import ResourceContainer from "../container/resourceContainerView";
 
 const Tab = createBottomTabNavigator();
 
-const header = ResourceContainer;
+const GlobalScreen = ({ route }) => {
 
-const GlobalScreen = () => {
+  const { fetchStats } = route.params;
+
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
@@ -41,6 +41,7 @@ const GlobalScreen = () => {
         <Tab.Screen
           name="Bâtiments"
           component={BuildingScreen}
+          initialParams={{fetchStats: fetchStats}}
           options={{
             headerShown: false,
             tabBarIcon: ({ size, focused, color }) => {

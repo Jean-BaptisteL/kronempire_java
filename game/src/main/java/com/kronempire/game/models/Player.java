@@ -1,9 +1,11 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,10 +36,11 @@ public class Player {
     private Integer status_player;
 
     @OneToMany(mappedBy = "player")
-    private Set<PlayerStat> stats;
+    @JsonIgnore
+    private List<PlayerStat> stats;
 
     @OneToMany(mappedBy = "player")
-    private Set<Message> messages;
+    private List<Message> messages;
 
     private String role = "ROLE_USER";
 
@@ -110,19 +113,19 @@ public class Player {
         this.status_player = status_player;
     }
 
-    public Set<PlayerStat> getStats() {
+    public List<PlayerStat> getStats() {
         return stats;
     }
 
-    public void setStats(Set<PlayerStat> stats) {
+    public void setStats(List<PlayerStat> stats) {
         this.stats = stats;
     }
 
-    public Set<Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(Set<Message> messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 

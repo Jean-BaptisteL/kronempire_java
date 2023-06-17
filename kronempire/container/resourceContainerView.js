@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Styles from "../styles/Styles";
 import { useEffect, useState } from "react";
 
-const ResourceContainer = () => {
+const ResourceContainer = ({playerStats, playerHasBuildings}) => {
 
   function calculateResources(retrievedValue, xFactor) {
     const [newValue, setResourceValue] = useState(retrievedValue);

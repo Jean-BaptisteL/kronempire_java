@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -64,10 +66,8 @@ public class PlayerController {
 
     @PostMapping("/signin")
     public ResponseEntity<String> signIn(@RequestBody String playerJson) throws JsonProcessingException {
-        System.out.println("kjfglwi");
         ObjectMapper mapper = new ObjectMapper();
         Player player = mapper.readValue(playerJson, Player.class);
-        System.out.println(playerJson);
         player.setDate_player(LocalDate.now());
         player.setLastConnection_player(LocalDateTime.now());
         player.setStatus_player(1);
@@ -91,6 +91,7 @@ public class PlayerController {
                                 stat.setCoordinates_player_stat((playerStatNumber/10+1) + "-" + ((playerStatNumber % 10)+1));
                             }
                         }
+                        stat.setPopQuantity_player_stat(100);
                         playerStatRepository.save(stat);
                         PlayerStat newPlayerStat = playerStatRepository.findPlayerStatByPlayer(playerSaved);
                         List<Building> buildings = buildingRepository.findAll();
@@ -133,12 +134,13 @@ public class PlayerController {
     @PostMapping("/login")
     public ResponseEntity<String> authentification(@RequestBody Player player) throws Exception {
         try {
-            authenticationManager.authenticate(
+            Authentication authentication =  authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             player.getEmail(), player.getPassword_player()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         catch (BadCredentialsException e) {
-            throw new Exception("Email ou mot de passe incorrect", e);
+            return new ResponseEntity<>("Email ou mot de passe incorrect", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(player.getEmail());
