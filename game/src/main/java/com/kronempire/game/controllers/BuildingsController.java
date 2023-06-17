@@ -1,5 +1,6 @@
 package com.kronempire.game.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kronempire.game.models.Building;
 import com.kronempire.game.models.BuildingNeedsTechnology;
@@ -8,9 +9,7 @@ import com.kronempire.game.repository.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,5 +39,22 @@ public class BuildingsController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @PostMapping("/sendBuildingInfo")
+//    public ResponseEntity<String> sendConstructionBuildingInfo(@RequestBody String buildingJson) throws JsonProcessingException {
+//        System.out.println("je suis la batiment");
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            Building building = mapper.readValue(buildingJson, Building.class);
+//            System.out.println(" info about clicked builging ::" + building.toString());
+//            return new ResponseEntity<>("Building construction is in progress", HttpStatus.OK);
+//        } catch (JsonProcessingException e) {
+////            throw new RuntimeException(e);
+//            return new ResponseEntity<>("Building construction failles", HttpStatus.BAD_REQUEST);
+//
+//        }
+//
+////        return new ResponseEntity<>("Building construction is in progress", HttpStatus.OK);
+//    }
 
 }
