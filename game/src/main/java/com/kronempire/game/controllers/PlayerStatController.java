@@ -1,14 +1,9 @@
 package com.kronempire.game.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kronempire.game.models.Building;
-import com.kronempire.game.models.Player;
-import com.kronempire.game.models.PlayerHasBuilding;
-import com.kronempire.game.models.PlayerStat;
+import com.kronempire.game.models.*;
 import com.kronempire.game.queues.ConstructionQueue;
-import com.kronempire.game.repository.PlayerHasBuildingRepository;
-import com.kronempire.game.repository.PlayerRepository;
-import com.kronempire.game.repository.PlayerStatRepository;
+import com.kronempire.game.repository.*;
 import com.kronempire.game.security.service.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +28,9 @@ public class PlayerStatController {
     private PlayerHasBuildingRepository playerHasBuildingRepository;
 
     @Autowired
+    private PlayerHasTechnologyRepository playerHasTechnologyRepository;
+
+    @Autowired
     private PlayerStatRepository playerStatRepository;
 
     @Autowired
@@ -40,6 +38,9 @@ public class PlayerStatController {
 
     @Autowired
     private ConstructionQueue constructionQueue;
+
+    @Autowired
+    private BuildingNeedsTechnologyRepository buildingNeedsTechnologyRepository;
 
     @GetMapping("/get")
     public ResponseEntity<Map<String,Object>> getStats(HttpServletRequest request) {
@@ -84,6 +85,19 @@ public class PlayerStatController {
 
         int buildingLevel = playerHasBuilding.getLevel() + 1;
         Building building = playerHasBuilding.getBuilding();
+
+        List<PlayerHasTechnology> technologies = playerStat.getTechnologies();
+        List<BuildingNeedsTechnology> buildingNeedsTechnologies = buildingNeedsTechnologyRepository.findAllByBuilding(building);
+
+        for (BuildingNeedsTechnology buildingNeedsTechnology : buildingNeedsTechnologies) {
+            for (PlayerHasTechnology technology : technologies) {
+                if (buildingNeedsTechnology.getTechnology().getId_tech() == technology.getTechnologyId()){
+                    if (buildingNeedsTechnology.getLevel() > technology.getLevel()){
+                        return new ResponseEntity<>("Le niveau de technologie requis n'est pas atteint.", HttpStatus.NOT_ACCEPTABLE);
+                    }
+                }
+            }
+        }
 
         // Nombre de secondes depuis la dernière action du joueur
         int seconds = (int) Duration.between(player.getLastConnection_player(), LocalDateTime.now()).getSeconds();
@@ -134,6 +148,8 @@ public class PlayerStatController {
             playerBuildingPrice.put(playerHasBuilding, price);
             constructionQueue.buildingsConstructions.put(buildTime, playerBuildingPrice);
         }
+
+
 
         constructionQueue.constructionsPrices.put(playerStat.getId_player_stat(), price);
 

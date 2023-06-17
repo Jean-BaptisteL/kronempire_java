@@ -69,6 +69,10 @@ public class PlayerStat {
     @JsonIgnore
     private List<PlayerHasBuilding> buildings;
 
+    @OneToMany(mappedBy = "playerStat")
+    @JsonIgnore
+    private List<PlayerHasTechnology> technologies;
+
     @Column(name = "buildInProgress_player_stat")
     private Boolean buildInProgress;
 
@@ -223,5 +227,13 @@ public class PlayerStat {
 
     public void setEventInProgress(boolean eventInProgress) {
         this.eventInProgress = eventInProgress;
+    }
+
+    public List<PlayerHasTechnology> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(List<PlayerHasTechnology> technologies) {
+        this.technologies = technologies;
     }
 }
