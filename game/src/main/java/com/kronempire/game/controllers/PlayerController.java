@@ -68,53 +68,33 @@ public class PlayerController {
     public ResponseEntity<String> signIn(@RequestBody String playerJson) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Player player = mapper.readValue(playerJson, Player.class);
-        player.setDate_player(LocalDate.now());
-        player.setLastConnection_player(LocalDateTime.now());
-        player.setStatus_player(1);
+        player.setDate_player(LocalDate.now());     // corresponds to
+        player.setLastConnection_player(LocalDateTime.now());       // will be used to update player's last action in game
+        player.setStatus_player(1);     // status 1 : active
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         player.setPassword_player(passwordEncoder.encode(player.getPassword_player()));
+
         try {
-            if (playerRepository.findPlayerByEmail(player.getEmail()) == null) {
-                if (Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",player.getEmail())){
-                    if (Pattern.matches("^[\\w-\\.]+$", player.getPseudo_player())){
-                        playerRepository.save(player);
+            if (playerRepository.findPlayerByEmail(player.getEmail()) == null) {        // 1st check : email not already used
+                if (Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",player.getEmail())){        // 2nd : email format is correct
+                    if (Pattern.matches("^[\\w-\\.]+$", player.getPseudo_player())){        //3rd : pseudonym format
+                        playerRepository.save(player);      // PKOI save() maintenant? => pk pas direct new Player(email, password_player, pseudo_player)
                         Player playerSaved = playerRepository.findPlayerByEmail(player.getEmail());
+
                         PlayerStat stat = new PlayerStat();
                         stat.setPlayer(player);
-                        Integer playerStatNumber = playerStatRepository.countAllPlayerStats();
-                        if (playerStatNumber == 0){
-                            stat.setCoordinates_player_stat("1-1");
-                        } else {
-                            if (playerStatNumber % 10 == 0 ) {
-                                stat.setCoordinates_player_stat((playerStatNumber/10+1) + "-1");
-                            } else {
-                                stat.setCoordinates_player_stat((playerStatNumber/10+1) + "-" + ((playerStatNumber % 10)+1));
-                            }
-                        }
-                        stat.setPopQuantity_player_stat(100);
+
+                        setNewPlayerCoordinate(stat);       // new coordinate
+                        stat.setPopQuantity_player_stat(100);       // initial population
+
                         playerStatRepository.save(stat);
                         PlayerStat newPlayerStat = playerStatRepository.findPlayerStatByPlayer(playerSaved);
-                        List<Building> buildings = buildingRepository.findAll();
-                        PlayerHasBuilding playerHasBuilding = new PlayerHasBuilding();
-                        for (Building building : buildings) {
-                            playerHasBuilding.setBuildingId(building.getId_building());
-                            playerHasBuilding.setPlayerStatId(newPlayerStat.getId_player_stat());
-                            playerHasBuildingRepository.save(playerHasBuilding);
-                        }
-                        List<Technology> technologies = technologyRepository.findAll();
-                        PlayerHasTechnology playerHasTechnology = new PlayerHasTechnology();
-                        for (Technology technology : technologies) {
-                            playerHasTechnology.setTechnologyId(technology.getId_tech());
-                            playerHasTechnology.setPlayerStatId(newPlayerStat.getId_player_stat());
-                            playerHasTechnologyRepository.save(playerHasTechnology);
-                        }
-                        List<Unit> units = unitRepository.findAll();
-                        PlayerHasUnit playerHasUnit = new PlayerHasUnit();
-                        for (Unit unit : units) {
-                            playerHasUnit.setUnitId(unit.getId_unit());
-                            playerHasUnit.setPlayerStatId(newPlayerStat.getId_player_stat());
-                            playerHasUnitRepository.save(playerHasUnit);
-                        }
+
+                        initPlayerBuildings(newPlayerStat);
+                        initPlayerTechnologies(newPlayerStat);
+                        initPlayerUnits(newPlayerStat);
+
                         return new ResponseEntity<>("Registration OK", HttpStatus.CREATED);
                     }
                     System.out.println("Pseudo not valid");
@@ -128,6 +108,49 @@ public class PlayerController {
             return ResponseEntity.badRequest().body("Email already exists");
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void initPlayerUnits(PlayerStat newPlayerStat) {
+        List<Unit> units = unitRepository.findAll();
+        PlayerHasUnit playerHasUnit = new PlayerHasUnit();
+        for (Unit unit : units) {
+            playerHasUnit.setUnitId(unit.getId_unit());
+            playerHasUnit.setPlayerStatId(newPlayerStat.getId_player_stat());
+            playerHasUnitRepository.save(playerHasUnit);
+        }
+    }
+
+    private void initPlayerTechnologies(PlayerStat newPlayerStat) {
+        List<Technology> technologies = technologyRepository.findAll();
+        PlayerHasTechnology playerHasTechnology = new PlayerHasTechnology();
+        for (Technology technology : technologies) {
+            playerHasTechnology.setTechnologyId(technology.getId_tech());
+            playerHasTechnology.setPlayerStatId(newPlayerStat.getId_player_stat());
+            playerHasTechnologyRepository.save(playerHasTechnology);
+        }
+    }
+
+    private void initPlayerBuildings(PlayerStat newPlayerStat) {
+        List<Building> buildings = buildingRepository.findAll();
+        PlayerHasBuilding playerHasBuilding = new PlayerHasBuilding();
+        for (Building building : buildings) {
+            playerHasBuilding.setBuildingId(building.getId_building());
+            playerHasBuilding.setPlayerStatId(newPlayerStat.getId_player_stat());
+            playerHasBuildingRepository.save(playerHasBuilding);
+        }
+    }
+
+    private void setNewPlayerCoordinate(PlayerStat stat) {
+        Integer playerStatNumber = playerStatRepository.countAllPlayerStats();
+        if (playerStatNumber == 0){
+            stat.setCoordinates_player_stat("1-1");
+        } else {
+            if (playerStatNumber % 10 == 0 ) {
+                stat.setCoordinates_player_stat((playerStatNumber/10+1) + "-1");
+            } else {
+                stat.setCoordinates_player_stat((playerStatNumber/10+1) + "-" + ((playerStatNumber % 10)+1));
+            }
         }
     }
 
