@@ -76,36 +76,43 @@ public class PlayerController {
         player.setPassword_player(passwordEncoder.encode(player.getPassword_player()));
 
         try {
-            if (playerRepository.findPlayerByEmail(player.getEmail()) == null) {        // 1st check : email not already used
-                if (Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",player.getEmail())){        // 2nd : email format is correct
-                    if (Pattern.matches("^[\\w-\\.]+$", player.getPseudo_player())){        //3rd : pseudonym format
-                        playerRepository.save(player);      // PKOI save() maintenant? => pk pas direct new Player(email, password_player, pseudo_player)
-                        Player playerSaved = playerRepository.findPlayerByEmail(player.getEmail());
+            // check : email not already used
+            if (playerRepository.findPlayerByEmail(player.getEmail()) != null) {
+                System.out.println("Email already exists");
+                //return new ResponseEntity<>("{'response': 'Email already exists'}", HttpStatus.OK);
+                return ResponseEntity.badRequest().body("Email already exists");
+            }
 
-                        PlayerStat stat = new PlayerStat();
-                        stat.setPlayer(player);
-
-                        setNewPlayerCoordinate(stat);       // new coordinate
-                        stat.setPopQuantity_player_stat(100);       // initial population
-
-                        playerStatRepository.save(stat);
-                        PlayerStat newPlayerStat = playerStatRepository.findPlayerStatByPlayer(playerSaved);
-
-                        initPlayerBuildings(newPlayerStat);
-                        initPlayerTechnologies(newPlayerStat);
-                        initPlayerUnits(newPlayerStat);
-
-                        return new ResponseEntity<>("Registration OK", HttpStatus.CREATED);
-                    }
-                    System.out.println("Pseudo not valid");
-                    return new ResponseEntity<>("Pseudo not valid", HttpStatus.OK);
-                }
+            // check : email format is correct
+            if (!Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",player.getEmail())){
                 System.out.println("Email not valid");
                 return new ResponseEntity<>("Email not valid", HttpStatus.OK);
             }
-            System.out.println("Email already exists");
-            //return new ResponseEntity<>("{'response': 'Email already exists'}", HttpStatus.OK);
-            return ResponseEntity.badRequest().body("Email already exists");
+
+            // check : pseudonym format
+            if (!Pattern.matches("^[\\w-\\.]+$", player.getPseudo_player())) {
+                System.out.println("Pseudo not valid");
+                return new ResponseEntity<>("Pseudo not valid", HttpStatus.OK);
+            }
+
+            // actions after checks
+            playerRepository.save(player);      // PKOI save() maintenant? => pk pas direct new Player(email, password_player, pseudo_player)
+            Player playerSaved = playerRepository.findPlayerByEmail(player.getEmail());
+
+            PlayerStat stat = new PlayerStat();
+            stat.setPlayer(player);
+
+            setNewPlayerCoordinate(stat);       // new coordinate
+            stat.setPopQuantity_player_stat(100);       // initial population
+
+            playerStatRepository.save(stat);
+            PlayerStat newPlayerStat = playerStatRepository.findPlayerStatByPlayer(playerSaved);
+
+            initPlayerBuildings(newPlayerStat);
+            initPlayerTechnologies(newPlayerStat);
+            initPlayerUnits(newPlayerStat);
+
+            return new ResponseEntity<>("Registration OK", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
