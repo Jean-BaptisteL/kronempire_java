@@ -68,9 +68,9 @@ public class PlayerController {
     public ResponseEntity<String> signIn(@RequestBody String playerJson) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Player player = mapper.readValue(playerJson, Player.class);
-        player.setDate_player(LocalDate.now());     // corresponds to
+        player.setDate_player(LocalDate.now());     // corresponds to player date inscription
         player.setLastConnection_player(LocalDateTime.now());       // will be used to update player's last action in game
-        player.setStatus_player(1);     // status 1 : active
+        player.setStatus_player(1);     // status 1 : active, 0: inactive/deleted, 2: on hold, 3: banned
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         player.setPassword_player(passwordEncoder.encode(player.getPassword_player()));
@@ -96,14 +96,14 @@ public class PlayerController {
             }
 
             // actions after checks
-            playerRepository.save(player);      // PKOI save() maintenant? => pk pas direct new Player(email, password_player, pseudo_player)
+            playerRepository.save(player);
             Player playerSaved = playerRepository.findPlayerByEmail(player.getEmail());
 
             PlayerStat stat = new PlayerStat();
             stat.setPlayer(player);
 
-            setNewPlayerCoordinate(stat);       // new coordinate
-            stat.setPopQuantity_player_stat(100);       // initial population
+            setNewPlayerCoordinate(stat);
+            stat.setPopQuantity_player_stat(100);
 
             playerStatRepository.save(stat);
             PlayerStat newPlayerStat = playerStatRepository.findPlayerStatByPlayer(playerSaved);
@@ -111,7 +111,7 @@ public class PlayerController {
             initPlayerBuildings(newPlayerStat);
             initPlayerTechnologies(newPlayerStat);
             initPlayerUnits(newPlayerStat);
-
+            System.out.println("Player created successfully" + playerSaved.toString());
             return new ResponseEntity<>("Registration OK", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

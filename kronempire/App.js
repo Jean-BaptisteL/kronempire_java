@@ -35,7 +35,7 @@ export default function App() {
   async function fetchStats() {
     token = await getSecureStoreValueFor('token');
     try {
-      const response = await fetch('http://192.168.1.19:8080/stats/get', {
+      const response = await fetch('http://192.168.1.7:8080/stats/get', {
         method: 'GET',
         headers: {
           Accept: 'application/json',

@@ -1,6 +1,8 @@
 package com.kronempire.game.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -23,6 +25,8 @@ public class Player {
     @Column(name="password_player", nullable = false)
     private String password_player;
 
+    @JsonProperty
+    @JsonFormat
     @Column(name="date_player", nullable = false)
     private LocalDate date_player;
 

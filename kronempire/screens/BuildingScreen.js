@@ -31,7 +31,7 @@ const BuildingScreen = ({ route }) => {
   // const buildingContruction = async data => {
     token = await getSecureStoreValueFor('token');
     try {
-      const response = await fetch('http://192.168.1.19:8080/stats/construct', {
+      const response = await fetch('http://192.168.1.7:8080/stats/construct', {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -60,7 +60,7 @@ const BuildingScreen = ({ route }) => {
     async function fetchBuildings() {
       token = await getSecureStoreValueFor('token');
       try {
-        const response = await fetch('http://192.168.1.19:8080/buildings/all', {
+        const response = await fetch('http://192.168.1.7:8080/buildings/all', {
           method: 'GET',
           headers: {
             Accept: 'application/json',

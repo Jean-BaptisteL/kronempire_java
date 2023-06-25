@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const ResourceContainer = ({playerStats, playerHasBuildings}) => {
 
-  console.log(playerHasBuildings);
+  // console.log(playerHasBuildings);
 
   function calculateResources(retrievedValue, xFactor) {
     const [newValue, setResourceValue] = useState(retrievedValue);

@@ -12,7 +12,7 @@ import Styles from "../styles/Styles";
 const HomeScreen = ({ route }) => {
 
   const { buildingConstruction } = route.params;
-  console.log(buildingConstruction);
+  // console.log(buildingConstruction);
 
   const [seconds, setSeconds] = useState(0);
 
